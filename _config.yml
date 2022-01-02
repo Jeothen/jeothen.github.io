@@ -3,11 +3,23 @@ description: Just another documentation theme compatible with GitHub Pages
 
 theme: null
 
-title                    : "Test - jeothen.github.io"
+locale                   : "ko-KR"
+title                    : "Blog - jeothen.github.io"
 name                     : "jeothen"
 description              : "학습한 내용을 정리하는 공간"
-url: https://jeothen.github.io
+url: "https://jeothen.github.io"
 baseurl: ""
+
+
+author:
+  name             : "jeothen"
+  location         : "Republic of Korea"
+
+footer:
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: mailto:jeothen@gmail.com
       
 # debug:
 #   compress: true
