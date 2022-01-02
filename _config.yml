@@ -3,6 +3,12 @@ description: Just another documentation theme compatible with GitHub Pages
 
 theme: null
 
+title                    : "Test - jeothen.github.io"
+name                     : "jeothen"
+description              : "학습한 내용을 정리하는 공간"
+url: https://jeothen.github.io
+baseurl: ""
+      
 # debug:
 #   compress: true
 #   dist: false
