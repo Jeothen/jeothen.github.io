@@ -1,8 +1,8 @@
 ---
 sort: 1
-
 ---
 
-# Algorithm
+# Operating System
 
 {% include list.liquid all=true %}
+
