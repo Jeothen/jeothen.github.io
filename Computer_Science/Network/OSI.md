@@ -148,11 +148,29 @@ DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 �
 
 **프로토콜** : TCP, UDP, ECN, SCTP, DCCP
 
+**역할**
 
+* 애플리케이션 계층과 네트워크 계층 사이에서 프로세스 간 logical communication을 제공
+  * Logical Communication : 프로세스 간 직접 연결된 것처럼 통신
 
+* end to end 통신을 다루는 Host Layers의 최하위 계층으로 신뢰성, 오류검출, 흐름제어 등을 수헹
+  * 상위 계층에서 데이터의 신뢰성, 효율성 등을 고려하지 않도록 함
 
+* source port, target port, sequence number, Ack Number 등의 데이터를 header에 붙여 세그먼트라는 패킷을 만듦
 
+**TCP/UDP**
 
+* TCP : 연결지향, 신뢰성과 순서(Ack Number)를 보장(sequence number)하며 연결시 3way handshaking, 해제시 4way handshaking으로 동작
+  * Full Duplex, Point to Point 통신
+    * Full Duplex : 전송이 양방향에서 동시에 발생할 수 있음
+    * Point to Point 통신 : 통신이 정확히 2개의 종단점을 가지고 있음
+  * 1 : 1 통신만 지원되며, 연결된 상태에서만 데이터 전송이 가능
+
+* UDP : 비연결 지향으로 발신자가 일방적으로 데이터를 전송
+  * 빠른 속도로 데이터를 전송하지만 신뢰성 부족
+  * 데이터의 순서를 보장하지 않고 잘못된 path로 전송하며 데이터 유실 가능성도 있음
+    * 데이터를 정상적으로 보내지 못하는 경우, 재전송하지 않음
+  * 패킷의 오버헤드가 적어 네트워크 부하는 감소
 
 <br/><br/>
 
@@ -160,7 +178,7 @@ DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 �
 
 **프로토콜** : API, Socket
 
-
+* 
 
 <br/><br/>
 
