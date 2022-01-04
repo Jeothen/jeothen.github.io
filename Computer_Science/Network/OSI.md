@@ -160,7 +160,7 @@ DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 �
 
 **TCP/UDP**
 
-* TCP : 연결지향, 신뢰성과 순서(Ack Number)를 보장(sequence number)하며 연결시 3way handshaking, 해제시 4way handshaking으로 동작
+* TCP : 연결지향, 신뢰성 있는(Ack Number)를 순차적 통신(sequence number)을 보장하며 연결시 3way handshaking, 해제시 4way handshaking으로 동작
   * Full Duplex, Point to Point 통신
     * Full Duplex : 전송이 양방향에서 동시에 발생할 수 있음
     * Point to Point 통신 : 통신이 정확히 2개의 종단점을 가지고 있음
@@ -172,27 +172,43 @@ DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 �
     * 데이터를 정상적으로 보내지 못하는 경우, 재전송하지 않음
   * 패킷의 오버헤드가 적어 네트워크 부하는 감소
 
+**ECN(Explicit Congestion Notification)**
+
+* 패킷을 삭제하지 않고 네트워크 정체에 대한 알림을 받을 수 있음
+* ECN 지원 엔드 포인트 간 사용할 수 있는 선택적 기능
+* 정체가 있는 경우, TCP/IP 통신에서는 패킷을 삭제하고 IP 헤더에 표시하여 정체를 알려줌
+* 수신자는 혼잡 표시를 발신자에게 보내 누락된 패킷을 감지한 것처럼 전송 속도를 줄임
+
+**SCTP(Stream Control Transmission Protocol)**
+
+* TCP/UDP와 비슷한 역할을 하며, TCP의 연결 지향 프로토콜이며 혼잡 제어를 통해 신뢰성 있는 순차적 통신을 제공하며  UDP의 스트리밍 특징을 가지고 있는 프로토콜
+* Multi Homing, Multi Streaming, 3Way/4Way Handshaking	
+  * Multi Hominig : 한 세션에서 다중 IP 주소를 이용하여 다중으로 접속을 유지하는 기술. path fail 시 idle 경로를 찾아 신뢰성 있는 데이터 전송
+  * Multi Streaming : 한 stream의 패킷 손실이 발생해도 다른 스트림에서도 데이터를 전송하기 때문에 연속적으로 전송 가능
+    * FIFO로 구성되어 있기 때문에 여러 입력 포트에서 특정 출력 포트로 큐잉되는데, 패킷 손실 때 발생하는 Head of Blocking 문제 해결
+
 <br/><br/>
 
 ### Layer 5. Session Layer
 
-**프로토콜** : API, Socket
+**프로토콜** : SSH, TLS 
 
+* 프로세스 간 통신을 위한 연결 설정, 유지 및 종료 같은 구조를 제공
 * 
 
 <br/><br/>
 
 ### Layer 6. Presentation Layer
 
-**프로토콜** : SSL, FTP, IMAP, SSH
+**프로토콜** : SSL, TLS, ASCII, JPEG
 
-
+* 
 
 <br/><br/>
 
 ### Layer 7. Application Layer
 
-**프로토콜** : HTTP, FTP, IRC, SSH, DNS
+**프로토콜** : HTTP, FTP, IRC, SSH, DNS, SMTP 등
 
 
 
