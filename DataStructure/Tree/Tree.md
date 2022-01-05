@@ -4,33 +4,9 @@ sort: 1
 
 # Tree
 
-### Description
 
 
-
-TTT
-
-asdasdasd
-
-asdasdasda
-
-sdasdasd
-
-* TTT
-
-asdasdasd
-
-asdasdasda
-
-sdasdasd
-
-* TTT
-
-asdasdasd
-
-asdasdasda
-
-sdasdasd
+트리란 노드로 이루어진 자료 구조를 의미한다.
 
 
 
@@ -38,9 +14,6 @@ sdasdasd
 
 ### Code
 
-* sdasdsad
-
-asdasdsad
-
- asdasd
+```c++
+```
 
