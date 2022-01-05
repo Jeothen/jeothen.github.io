@@ -222,13 +222,32 @@ DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 �
 
 ### Layer 7. Application Layer
 
-**프로토콜** : HTTP, FTP, IRC, SSH, DNS, SMTP 등
+**프로토콜** : HTTP, FTP, IRC, DNS, SMTP, POP3, IMAP 등
+
+**역할**
+
+* OSI 최상위 계층으로, 응용 프로그램 단에서 사용자에게 인터페이스를 통해 통신 서비스를 제공
+* 프로세스 간 통신하기 위해 설계된 전송계층 프로토콜을 이용하여 연결
 
 
 
+HTTP (HyperText Transfer Protocol) : W3 상에서 정보를 주고받을 수 있는 프로토콜
 
+FTP (File Transfer Protocol) : TCP/IP 프로토콜을 이용하여 서버와 클라이언트 사이의 파일 전송
 
+IRC (Internet Relay Chat) : 텍스트 형태의 커뮤니케이션을 제공하는 프로토콜
 
+DNS (Domain Name System) : Url을 IP 주소로 변환하는 서비스
+
+SMTP (Simple Main Transfer Protocol) : 이메일을 전송할 때 사용하는 프로토콜
+
+POP3 (Post Office Protocol 3) : 이메일을 수신할 때 사용하는 프로토콜
+
+* 서버에서 클라이언트 PC로 메일을 다운로드 하는 방식
+
+IMAP (Internet Message Access Protocol) : 이메일을 수신할 때 사용하는 프로토콜
+
+* 이메일 서버와 동기화되기 때문에 다양한 장치에서 확인
 
 <br/><br/>
 
