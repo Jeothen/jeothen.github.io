@@ -2,7 +2,7 @@
 sort: 1
 ---
 
-# Brute Forces
+# DP
 
 {% include list.liquid all=true %}
 
