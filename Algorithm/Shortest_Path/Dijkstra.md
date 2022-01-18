@@ -4,8 +4,9 @@ sort: 1
 
 # Dijkstra
 
-* Algorithm that can calculate the shortest distance from source node to target node
-* The time complexity is O((V+E)logV).  -  priority queue performed with pibonachi heap.
+* source node에서 target node까지 최단 거리를 계산하는 알고리즘
+* 시간 복잡도는 O((V+E)logV) - pibonachi heap을 사용하여 priority queue가 작동
+  * 각 노드의 경우, 시작점에서 방문하지 않은 노드 중 가장 짧은 거리를 계산하는데 O(VlogV)의 시간 복잡도가 필요하다
   * For each node, O(VlogV) is needed to find the node with the shortest distance calculated from the stating point among unvisited nodes
   * For each node, O(ElogV) is needed when updating the shortest distance of neighboring nodes.
 

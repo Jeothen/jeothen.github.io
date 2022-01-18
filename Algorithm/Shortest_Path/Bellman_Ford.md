@@ -4,18 +4,22 @@ sort: 2
 
 # Bellman Ford
 
-* It is one of the algorithms to find the single source shortest distance.
-* It takes longer than Dijkstra in terms of time complexity, but it can also be calculated with negative weights.
-
-* In the process of finding a path, dist can be updated at max n-1 times (the number of nodes).
-  * Since the order of update is changed according to the order of node visits, the update can be completed by going through the n-1 loop except for the first node.
-* However, if an update occurs on the n times as well, there is a negative cycle.
-
-* So, Time complexity is O(VE)    V : nodecount / E : edgecount
-
-* Below example is 3 nodecount and need 2 loop (maximum loop : nodecount-1)
+* 단일 소스의 최단거리를 찾는 알고리즘 중 하나
+* 시간 복잡도 측면에서 dijkstra보다 오래 걸리지만, 음의 가중치도 계산할 수 있음
 
 
+
+* 경로를 찾는 과정에서 dist는 최대 n-1번 (max node 수) 업데이트 됨
+
+  * 노드 방문 순서에 따라 업데이트 순서가 변경되기 때문에, 첫번째 노드를 제외하고 n-1번 루프를 거치면 업데이트가 완료
+
+* cycle이 발생하는 경우 n번째 루프에서도 최단거리가 업데이트가 됨
+
+* 시간 복잡도는 O(VE),    V : node 갯수 / E : edge 갯수
+
+  
+
+* 아래의 예시는 노드가 3개인 경우, 2번의 루프가 필요(max loop cnt : node cnt - 1)
 
 ![bellman_ford](./img/bellman_ford.JPG)
 
