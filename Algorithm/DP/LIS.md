@@ -60,49 +60,49 @@ cout << dp[n-1];
 ```c++
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <string>
-#include <vector>
-
 using namespace std;
 
-int arr[1001];
-int lis[1001];
+vector<int> arr;
+vector<int> lis;
 
-int binary_search(int left, int right, int target)
-{  
+int binary_search(int left, int right, int value)
+{
 	while (left < right)
 	{
-		int mid = (left + right) >> 2;
-		if (lis[mid] < target) left = mid + 1;
+		int mid = (left + right) >> 1;
+		if (lis[mid] < value) left = mid + 1;
 		else right = mid;
 	}
-	return right;
+	return left;
 }
 
 int make_lis(int n){ // size of array
-	lis[0] = arr[0];
-	int i = 0, j = 1;
-	// arr의 두번째부터 마지막까지 하나씩 lis와 비교하면서 넣어준다.
-	while (j < n)
+	lis[0] = arr[0]; // initial
+	int i = 1, res = 0;
+	while (i < n)
 	{
-		if (lis[i] < arr[j])
-		{
-			lis[i + 1] = arr[j];
-			i += 1;
-		}
+		if (lis[res] < arr[i]) lis[++res] = arr[i];
 		else
 		{
-			int idx = binary_search(0, i, arr[j]); // from 0 to i
-			lis[idx] = arr[j];
+			int idx = binary_search(0, res, arr[i]); // from 0 to i
+			lis[idx] = arr[i];
 		}
-		j += 1;
+		i += 1;
 	}
-	return i+1;
+	return res+1;
 }
 ```
 
 
 
-
+```c++
+lis.push_back(0);
+for (int i = 0; i < n; i++) {
+  if (lis.back() < arr[i]) lis.push_back(arr[i]);
+  else {
+    auto it = lower_bound(lis.begin(), lis.end(), arr[i]);
+    *it = arr[i];
+  }
+}
+```
 
