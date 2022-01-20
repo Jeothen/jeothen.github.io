@@ -58,6 +58,48 @@ cout << dp[n-1];
 
 
 ```c++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int arr[1001];
+int lis[1001];
+
+int binary_search(int left, int right, int target)
+{  
+	while (left < right)
+	{
+		int mid = (left + right) >> 2;
+		if (lis[mid] < target) left = mid + 1;
+		else right = mid;
+	}
+	return right;
+}
+
+int make_lis(int n){ // size of array
+	lis[0] = arr[0];
+	int i = 0, j = 1;
+	// arr의 두번째부터 마지막까지 하나씩 lis와 비교하면서 넣어준다.
+	while (j < n)
+	{
+		if (lis[i] < arr[j])
+		{
+			lis[i + 1] = arr[j];
+			i += 1;
+		}
+		else
+		{
+			int idx = binary_search(0, i, arr[j]); // from 0 to i
+			lis[idx] = arr[j];
+		}
+		j += 1;
+	}
+	return i+1;
+}
 ```
 
 
