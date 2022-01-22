@@ -22,7 +22,6 @@ sort: 3
 * 문자열이 같은 경우 ```lcs[i][j] = lcs[i-1][j-1] + 1``` 
   * 두 개의 문자 중 공통된 부분의 값에서 1을 더함
 * 공통 문자열에 접근하기 위해 index 0 는 0으로 set
-
 * 다른 경우 이전 값 중 큰 값으로 적용하기 때문에 행렬의 끝에 있는 값이 결과값임
 
 ex)
@@ -33,61 +32,79 @@ ex)
 | b    | 0    | **1** | 1     | 1     | 1     |
 | b    | 0    | 1     | 1     | 1     | 1     |
 | d    | 0    | 1     | 1     | **2** | 2     |
-| e    | 0    | 1     | 1     | 1     | **3** |
+| e    | 0    | 1     | 1     | 2     | **3** |
 | f    | 0    | 1     | **2** | 2     | 3     |
 
+* 경로추적
+  * 마지막 노드에서 bottom-up 방식으로 찾음
+  * 마지막 노드에서 왼쪽과 윗쪽을 보면서 같은 수가 있으면 index 이동
+  * 같은 수가 없으면 stack에 index를 저장하고 대각선으로 이동 
 
+**점화식**
+
+```c++
+	for (int i = 1; i < len1; i++) {
+		for (int j = 1; j < len2; j++) {
+			if (s1[i] == s2[j]) lcs[i][j] = lcs[i - 1][j - 1] + 1;
+			else lcs[i][j] = max(lcs[i-1][j], lcs[i][j-1]);
+		}
+	}
+```
 
 ### Code
 
 ```c++
 #include <iostream>
+#include <algorithm>
 #include <string>
+#include <stack>
+#define MAX_NODE 501
 using namespace std;
-#define str_max 5001
-string a, b;
-int table[str_max][str_max];
 
-int main() {
-	cin >> a;
-	cin >> b;
-	a = '0' + a;
-	b = '0' + b;
-	int len1, len2;
-	len1 = a.length();
-	len2 = b.length();
-	for (int i = 0; i < len1; i++) table[0][i] = 0;
-	int lcslen = 0;
-	for (int i = 1; i < len2; i++) {
-		table[i][0] = 0;
-		int max_len = 0;
-		for (int j = 1; j < len1; j++) {
-			if (b[i] == a[j]) {
-				max_len = table[i - 1][j - 1] + 1;
-				table[i][j] = max_len;
-			}
-			else {
-				if (table[i][j - 1] > table[i - 1][j])
-					table[i][j] = table[i][j - 1];
-				else
-					table[i][j] = table[i - 1][j];
-			}
-		}
-		lcslen = lcslen < max_len ? max_len : lcslen;
-	}
+int lcs[MAX_NODE][MAX_NODE];
 
-	string LCS = "";
-	int tmp = 1;
+int main()
+{
+	
+	string s1, s2;
+	cin >> s1 >> s2;
+
+	s1 = '0' + s1;
+	s2 = '0' + s2;
+
+	int len1 = s1.size();
+	int len2 = s2.size();
+	for (int i = 0; i < len1; i++) lcs[i][0] = 0;
+	for (int i = 0; i < len2; i++) lcs[0][i] = 0;
+
 	for (int i = 1; i < len1; i++) {
-		for (int j = tmp; j < len2; j++) {
-			if (table[i][j] == tmp &&  table[i - 1][j] == tmp-1  && table[i][j - 1] == tmp-1 && table[i - 1][j - 1] == tmp-1) { // newly updated
-				LCS += a[i];
-				tmp++;
-				break;
-			}
+		for (int j = 1; j < len2; j++) {
+			if (s1[i] == s2[j]) lcs[i][j] = lcs[i - 1][j - 1] + 1;
+			else lcs[i][j] = max(lcs[i-1][j], lcs[i][j-1]);
 		}
 	}
-	cout << LCS << endl;
+
+	cout << "LCS LENGTH IS " << lcs[len1 - 1][len2 - 1] << endl;
+
+	int i = len1 - 1;
+	int j = len2 - 1;
+	stack<int> st; // FROM LAST NODE
+
+	while (lcs[i][j] != 0)
+	{
+		if (lcs[i][j] == lcs[i][j - 1]) j--;
+		else if (lcs[i][j] == lcs[i - 1][j]) i--;
+		else if (lcs[i][j] - 1 == lcs[i - 1][j - 1])
+		{
+			st.push(i);
+			i--; j--;
+		}
+	}
+	while (!st.empty())
+	{
+		cout << s1[st.top()];
+		st.pop();
+	}
 }
 ```
 
@@ -95,12 +112,72 @@ int main() {
 
 ### Longest Common Substring
 
-* sadsa
-* dasdasd
+* Longeset Common Subsequence와 비슷한 내용이지만, 연속되지 않은 부분문자를 포함한다.
+* Longest Common Subsequence에서는 연속하지 않은 부분 수열을 포함하기 때문에 ``max(lcs[i-1][j], lcs[i][j-1])``을 적용했지만, Substring에서는 0으로 대체한다
+* Trace할 때도, 최대값이 나온 자리에서 대각선으로 이동하며 stack에 쌓으면 된다.
+
+**점화식**
+
+```c++
+	for (int i = 1; i < len1; i++) {
+		for (int j = 1; j < len2; j++) {
+			if (s1[i] == s2[j]) lcs[i][j] = lcs[i - 1][j - 1] + 1;
+			else lcs[i][j] = 0;
+		}
+	}
+```
 
 ### Code
 
 ```c++
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <stack>
+#define MAX_NODE 501
+using namespace std;
+
+int lcs[MAX_NODE][MAX_NODE];
+
+int main()
+{
+	
+	string s1, s2;
+	cin >> s1 >> s2;
+
+	s1 = '0' + s1;
+	s2 = '0' + s2;
+
+	int len1 = s1.size();
+	int len2 = s2.size();
+	for (int i = 0; i < len1; i++) lcs[i][0] = 0;
+	for (int i = 0; i < len2; i++) lcs[0][i] = 0;
+
+	int max_length = 0;
+
+	for (int i = 1; i < len1; i++) {
+		for (int j = 1; j < len2; j++) {
+			if (s1[i] == s2[j]) lcs[i][j] = lcs[i - 1][j - 1] + 1;
+			else lcs[i][j] = 0;
+			max_length = max(max_length, lcs[i][j]);
+		}
+	}
+	cout << "LCS LENGTH IS " << max_length << endl;
+
+	vector<pair<int, int>> vc;
+	for (int i=1; i<len1;i++){
+		for (int j=1; j< len2; j++){
+			if (lcs[i][j] == max_length) vc.push_back({i,j});
+		}
+	}
+	for (auto it : vc){
+		for (int i=it.first-max_length; i < it.first ; i++){
+			cout << s1[i];
+		}
+		cout << endl;
+	}
+}
 ```
 
 
