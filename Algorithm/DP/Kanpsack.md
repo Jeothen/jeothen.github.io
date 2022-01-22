@@ -4,6 +4,10 @@ sort: 1
 
 # Knapsack
 
+
+
+### Knapsack
+
 * 배낭에 담을 수 있는 무게의 최대값이 정해져있고, 각 물건의 무게와 가치가 주어질 때 배낭에 담을 수 있는 최대 가치를 구하는 문제
 * 2차원 배열을 생성 - y : 가방의 갯수 / x : 모든 배낭에 넣을 수 있는 최대 무게 (Max Weight)
 * x축에서 현재 가방의 무게보다 클 때 넣을 수 있는 최대 양을 기입
@@ -42,7 +46,7 @@ return dp[BAG_CNT][MAX_WEIGHT]
 
 
 
-### Knapsack Code
+### Code
 
 ```c++
 #include <iostream>
@@ -76,9 +80,7 @@ int main()
 
 
 
-
-
-# Coin Change
+## Coin Change
 
 * Kanpsack 알고리즘을 이용한 알고리즘
 * 동전의 종류의 금액이 주어졌을 때, 특정 금액을 만들기 위한 동전의 최소 갯수를 구하는 문제
@@ -107,7 +109,7 @@ int main()
 
 
 
-#### Coin Change Code
+#### Code
 
 ```c++
 #include <iostream>
