@@ -4,9 +4,8 @@ sort: 3
 
 # Floyd Warshall
 
-* Find the shortest path from all nodes to other nodes
-* Solving the shortest path problem with DP
-* The time complexity is O(n^3) because it is necessary to check the distance from every node to another node and the node passing through node.
+* 모든 노드에서 다른 모든 노드까지의 DP로 최단 거리 찾기
+* 모든 노드에서 다른 노드까지의 거리와 해당 노드를 통과하는 거리를 확인해야되니 O($$N^3$$) 의 시간 복잡도를 가진다.
 
 
 
@@ -29,9 +28,9 @@ void floyd_warshall(){
         for (int j=0; j<nodecount; j++){
             if (i==j) dist[i][j] = 0;
             else {
-                int a, b, c;
-                dist[a-1][b-1] = c;
-                // If Bidirectional,  j = i; j<nodecount; j++ ;    dist[a-1][b-1] = dist[b-1][a-1] = c;
+                int a, b, c; cin >> a >> b >> c;
+				        dist[a][b] = min(dist[a][b],c);
+                // If Bidirectional,  j = i; j<nodecount; j++ ;    dist[a][b] = dist[b][a] = c;
             }
         }
     }
