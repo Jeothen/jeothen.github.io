@@ -1,5 +1,5 @@
 ---
-sort: 2
+sort: 3
 ---
 
 # Bellman Ford
@@ -27,7 +27,9 @@ sort: 2
 
 
 
-### Code
+
+
+**Code**
 
 ```c++
 #include <iostream>

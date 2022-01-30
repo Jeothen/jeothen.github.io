@@ -1,5 +1,5 @@
 ---
-sort: 1
+sort: 2
 ---
 
 # Dijkstra
@@ -12,7 +12,7 @@ sort: 1
 
 
 
-### Code
+**Code**
 
 ```c++
 #include <iostream>
