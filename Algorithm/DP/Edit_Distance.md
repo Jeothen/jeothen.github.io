@@ -50,7 +50,7 @@ else dp[i][j] = min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]) + 1;
 
 
 
-### Code
+**Code**
 
 ```c++
 int editDist(int m, int n)

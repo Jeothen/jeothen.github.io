@@ -51,7 +51,9 @@ ex)
 	}
 ```
 
-### Code
+
+
+**Code**
 
 ```c++
 #include <iostream>
@@ -127,7 +129,9 @@ int main()
 	}
 ```
 
-### Code
+
+
+**Code**
 
 ```c++
 #include <iostream>

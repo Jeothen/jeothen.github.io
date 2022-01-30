@@ -42,7 +42,7 @@ return dp[BAG_CNT][MAX_WEIGHT]
 
 
 
-### Code
+**Code**
 
 ```c++
 #include <iostream>
@@ -103,7 +103,7 @@ int main()
 
 
 
-#### Code
+**Code**
 
 ```c++
 #include <iostream>
