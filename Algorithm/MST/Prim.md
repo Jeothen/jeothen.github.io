@@ -4,14 +4,13 @@ sort: 1
 
 # PRIM
 
-* It is a representative algorithm of MST and operates based on node.
-* The worst time complexity is O(n^2), which is the square of the number of nodes.  / n is nodecount
-* e, edge count, is always smaller than n^2, so worst time complexity is O(elogn) when using priority queue.
-
-
-
-* When implemented by priority queue, time complexity is O(eloge)
-* kruskal applies the priority queue after saving all edges, but prim stores edges in the priority queue as nodes move.
+* MST의 대표적인 알고리즘으로 Node 기반으로 동작함
+* 최악의 시간 복잡도는 노드 갯수(V) 제곱인 O($$V^2$$)임
+* E(edge count)는 항상 $$V^2$$ 보다 작으므로, 우선순위 큐를 사용했을 때 시간 복잡도를 줄일 수 있다.
+  * 우선순위 큐에서 edge를 업데이트 하는데 O($$ElogV$$)이며, 방문하지 않은 노드를 우선순위 큐에 업데이트 하는데 O($$VlogV$$)이다
+    * 시간 복잡도는 ($$(E+V)logV) 이다.($$E >> V인 경우, O($$ElogV$$))
+* 크루스칼은 모든 edge를 우선순위 큐에 push하여 edge 기준으로 동작하지만, prim 알고리즘은 node를 방문할 때마다 해당 노드의 edge를 업데이트 함
+* 간선의 수가 많은 Dense Matrix인 경우 크루스칼보다 Prim 알고리즘을 적용하기 적합함
 
 
 

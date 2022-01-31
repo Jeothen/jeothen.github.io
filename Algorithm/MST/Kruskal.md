@@ -4,11 +4,15 @@ sort: 2
 
 # Kruskal
 
-* The Prim algoritm connects based on the node, whereas the kruskal connects based on the edge.
-* Because it is based on the edge, connect the edge through union-find.
-* Time complexity is determined by the edge and is O(eloge)
+* 프림 알고리즘은 node를 기준으로 연결하지만, 크루스칼 알고리즘은 edge를 기준으로 연결
 
+* edge를 기준으로 하기 때문에 union-find로 edge를 연결함
 
+* 시간 복잡도는 edge로 우선순위 큐를 구성할 때 O($$ElogE$$)이다.
+
+* 간선의 수가 적은 Sparse Matrix인 경우, Prim 알고리즘보다 크루스칼이 적합함
+
+  
 
 **Code**
 
