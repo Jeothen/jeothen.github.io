@@ -8,14 +8,14 @@ sort: 1
 
 <br />
 
-<br />
-
 * ISO에서 개발한 모델로, 네트워크 프로토콜 디자인과 통신을 계층으로 나누어 설명
 * 기능별로 계층을 나누었기 때문에 유지보수에 용이
 
 다중화 (Multiplexing) : 주로 Sender에서 동작하며, L7에서 L1으로 내려가면서 Header에 정보가 추가되는 방식
 
 DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 추출
+
+<br/>
 
 ![OSI](./Img/OSI.png)
 
