@@ -6,7 +6,7 @@ sort: 2
 
 * World Wide Web에서 주고 받을 수 있는 HyperText Transfer Protocol이다.
 * 클라이언트와 서버 사이에 간 통신하는 request / response Protocol
-  * request : Client -> Server로 전달하는 메시지로 Server에 동작을 발생시킴
+  * request : Client -> Server로 전달하는 메시지로 80번 port로 Server에 동작을 발생시킴
   * response : Request에 대한 Server의 내부동작 후 Client로 전달하는 메시지 
 * HTML 같은 리소스를 가져올 수 있는 프로토콜
   * HTTP를 통해 전달되는 자료는 URL을 통해 조회 가능하다
@@ -23,7 +23,7 @@ sort: 2
     * Header의 Content-Type Field에 어떤 데이터 타입인지 명시
   * HTML 코드, Image, CSS, JS 코드 등이 포함되어 전송됨
 
-
+<br/>
 
 **HTTP request Method**
 
@@ -124,8 +124,33 @@ TRACE /form
 Host : ~
 ```
 
+<br/>
 
+<br/>
 
 ### HTTPS
 
-* 
+* HyperText Transfer Protocol over Secure/TLS/SSL/Secure-Socket-Layer 로 W3 Protocol인 HTTP에 암호화가 추가됨
+* HTTPS의 TCP/IP Port는 443이다 (HTTP : 80)
+* 소켓 통신에서는 일반 텍스트를 사용하지만, SSL/TLS Protocol을 통해 Session 데이터를 암호화 함
+* SPDY
+  * 웹 컨텐츠 전송을 목적으로 구글에서 개발한 비표준 개방향 네트워크 protocol로 TLS와 HTTP의 중간 Layer에 위치
+  * 압축, Multiplexing, 우선순위 등을 설정하여 latency 감소
+  * 암호화 한 연결만은 지원하기 때문에 SSL or TLS로 암호화되어야 함
+  * HTTP/2가 SPDY 프로토콜 기반으로 통신하기 때문에 SPDY는 서비스가 종료됨
+  * HTTP/2에서는 HTTPS를 기본적으로 사용하기때문에 HTTPS가 HTTP보다 속도가 빠를 수 있다고 생각할 수 있지만, 동일한 1.1 버전에서 비교시에는 HTTP가 빠른 것으로 앎 (암호화 과정 생략)
+* HTTPS는 대칭키와 비대칭키 암호화를 모두 사용
+* 비대칭키(공개키) 암호화는 초기 설정단계에 사용되며, 이후 대칭키(세션키)로 대체됨
+* 암호화 동작 과정
+  * 클라이언트가 서버에 접근하면, 서버가 비대칭키(공개키)를 클라이언트로 전송함
+  * 클라이언트는 비대칭키를 이용하여 세션키(대칭키)를 생성하고, 서버와 공유
+  * 서버는 비밀키를 이용하여 세션키를 해석하여 END-END에는 클라이언트가 생성한 세션키가 존재
+  * 비대칭키(공개키) 암호화가 종료되면서 세션키(대칭키)로 대체되어 데이터 전송시 세션키로 암호화하여 전송
+  * 세션키는 연결이 끊기기 전까지 유지됨
+
+![How-HTTPS-Works](./Img/How-HTTPS-Works.png)
+
+<div style="text-align: right"> Image ref : https://tiptopsecurity.com/how-does-https-work-rsa-encryption-explained/ </div>
+
+<br/>
+
