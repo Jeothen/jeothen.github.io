@@ -17,6 +17,12 @@ sort: 1
 
 DeMultiplexing : 주로 Receiver에서 동작하며, Header에 있는 Data를 추출
 
+![OSI](./Img/OSI.png)
+
+<div style="text-align: right"> Image ref : https://theautomization.com/osi-model/ </div>
+
+
+
 <br/>
 
 <br/>
