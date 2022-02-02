@@ -28,6 +28,8 @@ sort: 3
 
 ![NAT](./Img/NAT.png)
 
+<div style="text-align: right"> Image ref : https://en.wikipedia.org/wiki/Network_address_translation</div>
+
 <br/>
 
 **Static NAT(Reserve NAT)**
