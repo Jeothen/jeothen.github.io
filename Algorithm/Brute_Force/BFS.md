@@ -16,7 +16,7 @@ sort: 1
 **인접 행렬**
 
 ```c++
-for (int i=0; i<V ;i++)}{
+for (int i=0; i<V ;i++){
 	if (graph[now][i] && !visit[i]){
 	
 	}
@@ -29,7 +29,7 @@ for (int i=0; i<V ;i++)}{
 **인접리스트**
 
 ```c++
-for (int i=0; i< graph[now].size();i++)}{
+for (int i=0; i< graph[now].size();i++){
 	int next = graph[now][i]
   if (!visit[next]){
 	}
