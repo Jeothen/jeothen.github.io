@@ -4,19 +4,19 @@ sort: 3
 
 # Rabin Karp
 
-* Rabin Karp is an algorithm that finds 1:1 matching based on hashing
-* So, there are a lot of collision.  To reduce collision, Usually the MOD is set to very large prime number.
-* There may still be collisions, so the existance of the string is checked through simple comparision only when hash value is same.
+* 라빈 카프 알고리즘은 해싱을 기반으로 1:1 매칭을 찾는 알고리즘이다.
+* 해싱을 기반으로 찾기 때문에 충돌이 많다. 충돌을 줄이기 위해 보통 MOD를 매우 큰 수로 설정한다.
+* 그래도 여전히 충돌이 있을 수 있기 때문에, 해시 값이 동일한 경우 문자열을 비교하는 작업을 추가로 수행한다.
 
+<br/>
 
-
-* Rabin Karp algorithm usually using `Rabin fingerprint algorithm`
+* 라빈카프 알고리즘은 보통 라빈카프 fingerprinting 알고리즘을 사용한다.
 
 $$H[i] = t[i]  * $$m<sup>n-1</sup> + $$ t[i+1] * $$ m<sup>n-2</sup> + ....  + $$ t[i+n-2] * m^1 + t[i+n-1] * m^0 $$
 
+<br/>
 
-
-* So, `Rabin fingerprint algorithm` transfered like belows
+* 라빈카프 fingerprinting 알고리즘은 아래와 같이 변형됨
 
 $$H[i+1] = t[i+1]* $$  m<sup>n-1</sup> + $$ t[i+2]* $$  m<sup>n-2</sup> + .... + $$ t[i+n-1] * m^1 + t[i+n] * m^0 $$
 
@@ -26,14 +26,11 @@ $$H[i+1] = t[i+1]* $$  m<sup>n-1</sup> + $$ t[i+2]* $$  m<sup>n-2</sup> + .... 
 
  = $$m*(H[i] - t[i] *$$ m<sup>n-1</sup> $$) + t[i+m]*m^0 $$
 
+<br/>
 
-
-* So, best case, time complexity is O(N+M).
-* But worst case such as "AAAAAAAA", "AAA" : time complexity is O(NM)
-
-
-
-
+* 따라서, best case 인 경우, 시간복잡도는 O(N+M) 이다.
+* 그러나, worst case인 경우 시간 복잡도는 O(NM)이다. 
+  * "AAAAAAAAA", "AAA" 와 같은 경우..
 
 **Code**
 
