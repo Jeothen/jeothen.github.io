@@ -5,6 +5,15 @@ sort: 1
 # Suffix Array
 
 * 문자열에 존재하는 모든 접미사를 정렬
+* ABAABA라는 배열이 있다고 가정하면
+  * A / BA / ABA / AABA / BAABA / ABAABA 라는 6개의 접미사를 생성할 수 있음
+  * 이 6개의 배열을 정렬하여 인덱스 배열을 만듦
+
+|      | A    | AABA | ABA  | ABAABA | BA   | BAABA |
+| ---- | ---- | ---- | ---- | ------ | ---- | ----- |
+| SA   | 5    | 2    | 3    | 0      | 4    | 1     |
+
+
 
 * 접미사를 구현하는 방법에는 Naive / Manber-Mayers 알고리즘 2가지가 있음
   * Naive 알고리즘의 시간 복잡도는 O($$N^2log(N)$$) 이므로 사용하는데 효과적이지 않음
@@ -13,7 +22,7 @@ sort: 1
 
  <br/>
 
-#### Manber-Myers Algorithm
+**Manber-Myers Algorithm**
 
 * 정렬할 때 Rank를 사용하고, 기수정렬 컨셉을 적용
   * 반복문을 통해서 2의 거듭제곱 단위로 비교할 문자열을 지정하는데 O($$logN$$)
@@ -57,14 +66,12 @@ vector<int> getsfx(string &str)
 
 
 
-##### 추가로 확인이 필요한 내용
+**추가로 확인이 필요한 내용**
 
 * Radix Sort 대신 Counting Sort를 사용하는 경우, 시간 복잡도가 O($$N(logN)^2$$)애서 O($$NlogN$$) 으로 줄어듦
+  * Sort Altorithm들 정리 후 작성
 
 
 
-
-
-
-
-* 그리고 O(N)으로 구현하는 방법은 확인 필요
+* 그리고 O(N)으로 구현하는 방법도 있다고 함
+  * O($$NlogN$$ )을 정리한 후 정리
