@@ -18,8 +18,10 @@ sort: 4
     | j       | 0    | 0    | 1    | 2    | 3    | p[2]->p[0] =0 | 1    | 2    | 3    | 4    | 5    | p[4]=3(same) + 1 | p[3]->p[1]=0 | 0    |
     | p[i]    | 0    | 0    | 1    | 2    | 3    | 0             | 1    | 2    | 3    | 4    | 5    | 3->4             | 0            | 0    |
 
-  * If pattern[index] and pattern[j] are different, move to the previous fail function value until they are the same or 0
+    
 
+  * If pattern[index] and pattern[j] are different, move to the previous fail function value until they are the same or 0
+  
   * If pattern[index] and pattern[j] are the same, 1 is added to j, and then 1 is also added to the p[index].
 
 
