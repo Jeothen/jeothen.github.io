@@ -4,90 +4,142 @@ sort: 4
 
 # KMP
 
-* KMP(Knuth-Morris-Prett) algorithm is implemented using prefix and suffix.
+* KMP(Knuth-Morris-Prett) 알고리즘은 접두사와 접미사를 사용하여 구현됨
 
-* fail function
+* 실패함수 (fail function)
 
-  * common max length of prefix and suffix
+  * 문자열 매칭이 실패했을 때 특정 구간만큼 건너뛰어서 매칭을 최소화하기 위해 사용
 
-  * below table is  `ababacabababbb` 's fail function
+  * 접두사와 접미사의 공통 최대 길이를 의미
 
-    | index   | 0    | 1    | 2    | 3    | 4    | 5             | 6    | 7    | 8    | 9    | 10   | 11               | 12           | 13   |
-    | ------- | ---- | ---- | ---- | ---- | ---- | ------------- | ---- | ---- | ---- | ---- | ---- | ---------------- | ------------ | ---- |
-    | pattern | a    | b    | a    | b    | a    | c             | a    | b    | a    | b    | a    | b                | b            | b    |
-    | j       | 0    | 0    | 1    | 2    | 3    | p[2]->p[0] =0 | 1    | 2    | 3    | 4    | 5    | p[4]=3(same) + 1 | p[3]->p[1]=0 | 0    |
-    | p[i]    | 0    | 0    | 1    | 2    | 3    | 0             | 1    | 2    | 3    | 4    | 5    | 3->4             | 0            | 0    |
-
-    
-
-  * If pattern[index] and pattern[j] are different, move to the previous fail function value until they are the same or 0
+  * 아래 테이블은  `ababacabababbb` 의 실패함수
   
-  * If pattern[index] and pattern[j] are the same, 1 is added to j, and then 1 is also added to the p[index].
+    | index   | 0    | 1    | 2    | 3    | 4    | 5                 | 6    | 7    | 8    | 9    | 10   | 11         | 12               | 13   |
+    | ------- | ---- | ---- | ---- | ---- | ---- | ----------------- | ---- | ---- | ---- | ---- | ---- | ---------- | ---------------- | ---- |
+    | pattern | a    | b    | a    | b    | a    | c                 | a    | b    | a    | b    | a    | b          | b                | b    |
+    | j       | 0    | 0    | 1    | 2    | 3    | f[3-1]->f[1-1] =0 | 1    | 2    | 3    | 4    | 5    | f[5-1] + 1 | f[4-1]->f[2-1]=0 | 0    |
+    | f[i]    | 0    | 0    | 1    | 2    | 3    | 1->0              | 1    | 2    | 3    | 4    | 5    | 3+1        | 2->0             | 0    |
 
-
-
-* Example
-
-  * Find `ababa`   in `abab  ababdabababa`
-  * create fail function `ababa`
-    * fail function p  = [0,0,1,2,3]  in `ababa `
-
+  * pattern[index]와 pattern[j]가 다른 경우, 같거나 0이 될 때까지 이전 fail 함수 값으로 이동
   
+  * pattern[index]와 pattern[j]가 같은 경우, j에 1을 더하고 p[index]에도 1을 더함
+  
+  * `str[index]와 str[j]` 가 매칭이 안 되었을 때는 매칭이 안 될때까지  `j = f[j-1]`  반복 
+    * 매칭이 되었을 때 j++ 
+  * 시간 복잡도는 pattern의 길이인 O(M)을 소모하는 것을 확인할 수 있음
+  
+  ```c++
+  void fail_function()
+  {
+      f[0] = 0;
+      for (int i = 1, j = 0; i < n; i++)
+      {
+          while (j && str[i] != str[j]) j = f[j - 1];
+          if (str[i] == str[j]) j++;
+          f[i] = j;
+      }
+  }
+  ```
 
-  * index 4 is mismatch ->  match up to index 3,  so. p[3] = 2
+<br/>
 
-    | a    | b    | a    | b    |       | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    | a    | b    | a    | b    | **a** |      |      |      |      |      |      |      |      |      |
+**문자열 찾기**
 
-  * Apply from index 2 to the point that did not match before -> match up to 1, so p[1] = 0
+* 하나의 예로 `abab  ababdabababa ` 내에서 `ababa` 를 찾는 경우 
 
-    | a    | b    | a    | b    |       | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      | **a** | b    | a    |      |      |      |      |      |      |      |
+  *  `ababa` 의 실패함수 생성
+    * `ababa` 의 실패함수 p  = [0,0,1,2,3] 
+  *  정상적으로 매칭되었을 때 res = ++j
+  *  res의 값이 pat의 길이와 일치할 때 매칭
+    * start index를 계산하기 위해서는 pattern의 길이-1만큼 빼준다
 
-  * Apply from index 0 to the point that did not match before ->  not match, so index++
+  <br/>
 
-    | a    | b    | a    | b    |       | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      | **a** | b    | a    | b    | a    |      |      |      |      |      |
+  *  인덱스 4까지 정상 매칭되었으나 5번째 인덱스에서 fail
+    * j=4에서 시작해서 j = f[4-1] = f[3] = 2
+      * 공백과 a 는 mismatching
+    * j=2에서 시작해서 j = f[2-1] = f[1] = 0
+      * 공백과 a는 mismatching
 
-  * exactly match /  match up to index 4, so p[4] = 3
+  | str  | a    | b    | a    | b    |         | a    | b    | a    | b    | d    | a    | b    | a    | b    | a    | b    | a    |
+  | ---- | ---- | ---- | ---- | ---- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+  | pat  | a    | b    | a    | b    | **a**   |      |      |      |      |      |      |      |      |      |      |      |      |
+  | i    | 0    | 1    | 2    | 3    | 4       | 5    | 6    | 7    | 8    | 9    | 10   | 11   | 12   | 13   | 14   | 15   | 16   |
+  | j    | 0    | 1    | 2    | 3    | 4->2->0 |      |      |      |      |      |      |      |      |      |      |      |      |
+  | res  | 1    | 2    | 3    | 4    | 0       |      |      |      |      |      |      |      |      |      |      |      |      |
 
-    | a    | b    | a    | b    |      | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      |      | a    | b    | a    | b    | a    |      |      |      |      |
+  * 인덱스 8까지 정상 매칭되었으나 9번째 인덱스에서 fail
+    * j =4에서 시작해서 j = f[4-1] = f[3] =  2
+      * 공백과 a 는 mismatching
+    * j =2에서 시작해서 j = f[2-1] = f[1] = 0
+      * 공백과 a 는 mismatching
 
-  * checked from index 3, exactly match / match up to index 4, so p[4] = 3 
+  | str  | a    | b    | a    | b    |      | a    | b    | a    | b    | d       | a    | b    | a    | b    | a    | b    | a    |
+  | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+  | pat  |      |      |      |      |      | a    | b    | a    | b    | **a**   |      |      |      |      |      |      |      |
+  | i    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9       | 10   | 11   | 12   | 13   | 14   | 15   | 16   |
+  | j    |      |      |      |      | 0    | 0    | 1    | 2    | 3    | 4->2->0 |      |      |      |      |      |      |      |
+  | res  | 1    | 2    | 3    | 4    | 0    | 1    | 2    | 3    | 4    | 0       |      |      |      |      |      |      |      |
 
-    | a    | b    | a    | b    |      | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      |      |      |      |      |      |      | b    | a    |      |      |
+  * 인덱스 14까지 정상 매칭
+    * pattern의 길이 값이 res에 나왔으므로 매칭 된 index를 찾을 수 있음
 
-  * match up to index 3, so p[3] = 2
+  | str  | a    | b    | a    | b    |      | a    | b    | a    | b    | d    | a    | b    | a    | b    | a    | b    | a    |
+  | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+  | pat  |      |      |      |      |      |      |      |      |      |      | a    | b    | a    | b    | a    |      |      |
+  | i    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 11   | 12   | 13   | 14   | 15   | 16   |
+  | j    |      |      |      |      |      |      |      |      |      |      | 0    | 1    | 2    | 3    | 4    |      |      |
+  | res  | 1    | 2    | 3    | 4    | 0    | 1    | 2    | 3    | 4    | 0    | 1    | 2    | 3    | 4    | 5    |      |      |
 
-    | a    | b    | a    | b    |      | a    | b    | a    | b    | a    | b    | a    | b    | d    |
-    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      |      |      |      |      |      |      |      |      | b    | a    |
+  * 15번째 인덱스에서 pattern이 길이를 초과하기 때문에 매칭이 안 되므로 fail
+    * j=5에서 시작해서 j = f[5-1] = f[4] = 3
+      * j = 3에서 pat[j] = 'b' 이므로 str과 매칭됨
 
-  * checked from index 2, and pattern string is over the length of text
+  | str  | a    | b    | a    | b    |      | a    | b    | a    | b    | d    | a    | b    | a    | b    | a    | b    | a    |
+  | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+  | pat  |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |      |
+  | i    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 11   | 12   | 13   | 14   | 15   | 16   |
+  | j    |      |      |      |      |      |      |      |      |      |      | 0    | 1    | 2    | 3    | 4    | 5->3 | 4    |
+  | res  | 1    | 2    | 3    | 4    | 0    |      |      |      |      |      | 1    | 2    | 3    | 4    | 5    | 4    | 5    |
 
-    | a    | b    | a    | b    |      | a    | b    | a    | b    | a    | b    | a    | b    | d    |      |      |
-    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-    |      |      |      |      |      |      |      |      |      |      |      |      |      | a    | b    | a    |
+* KMP는 O(N)로 동작하는 것을 확인할 수 있음
 
+* 따라서 실패함수와 KMP를 구현했을 때 시간 복잡도는 O(N+M)
 
-
-* So, Time complexity is O(N+M)
-
-
-
-
+<br/>
 
 **Code**
 
 ```c++
+vector<int> fail_function(string pat)
+{
+    int m = pat.length();
+    vector<int>f(m+1);
+    f[0] = 0;
+    for (int i = 1, j = 0; i < m; i++)
+    {
+        while (j && pat[i] != pat[j]) j = f[j - 1];
+        if (pat[i] == pat[j]) j++;
+        f[i] = j;
+    }
+    return f;
+}
 
+void kmp(string str, string pat)
+{
+    vector<int> res;
+    vector<int> f =fail_function(pat);
+    int n = str.length();    
+    for (int i = 0, j = 0; i < n; i++)
+    {
+        while (j && str[i] != pat[j]) j = f[j - 1];
+        if (str[i] == pat[j]) res.push_back(++j);
+        if (j == n) j = f[j - 1];
+    }
+    for (auto it : res) cout << it << " ";
+    cout << endl;
+
+}
 ```
 
 
