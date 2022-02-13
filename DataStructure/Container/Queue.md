@@ -4,9 +4,11 @@ sort: 2
 
 # Queue
 
+* FIFO (First In First Out)을 따르는 Container
 
+  * Push : 리스트의 가장 우측에 값을 넣음
 
-
+  - Pop : 리스트의 가장 좌측 값을 제거
 
 **Code**
 

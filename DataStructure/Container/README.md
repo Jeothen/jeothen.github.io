@@ -29,9 +29,11 @@ sort: 1
 
 **hash (unordered map / set)**
 
-* asda
+* 
 
 
+
+**LIST**
 
 {% include list.liquid all=true %}
 
