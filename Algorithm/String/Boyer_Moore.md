@@ -1,16 +1,18 @@
 ---
-sort: 5
+sort: 6
 ---
 
 # Boyer Moore
 
 * Boyer Moore 알고리즘은 두가지 접근법을 조합하여 최적의 방법으로 문자를 비교
-
 * Rabin-Karp와 KMP는 왼쪽에서 오른쪽으로 비교했지만, Boyer Moore는 오른쪽에서 왼쪽으로 비교
 
   * 문자열을 skip할 때는 왼쪽에서 오른쪽으로 진행
-
 * 두가지 접근법은 Bad Character / Good Suffix
+* 시간 복잡도는 문자열 비교 단계에서 시간복잡도 O(NM)을 가지지만, pattern에 비해 text가 상당히 클 경우 최적의 case인 O(N/M)에 가까워짐
+  * 텍스트가 나타나지 않는 경우 O(N+M)
+
+<br/>
 
 * **Bad Characeter**
 
@@ -23,7 +25,7 @@ sort: 5
   **Bad Character Code**
 
   ```c++
-  
+  #define NUM_OF_CHARS 256
   vector<int> createBC(string pat)
   {
       int M = pat.length();
@@ -294,13 +296,16 @@ sort: 5
   |      |      |      |      |      |      |      |      |      | A    | A    | **B** | A    | C    |      |      |      |
   
   * 문자열 길이 초과로 while문 빠져 나옴
+  * 일반적으로 good suffix의 시간복잡도는 
 
 <br/>
 
 ### Good Suffix와 Bad Character를 조합
 
 * Bad Character와 Good Suffix 중 문자열을 가장 많이 skip 할 수 있는 방법으로 적용함
-* 완전히 매칭될 때는 Good Suffix
+* 완전히 매칭될 때는 Good Suffix인 gs[0] 값만큼 이동
+* 매칭이 실패 했을 때는  `max(j - bc[txt[s + j]], gs[j])` 만큼 이동
+  * Bad character와 good suffix 중 많이 이동할 수 있는 것을 선택
 
 ```c++
 vector<int> createBC(string pat)
@@ -366,57 +371,57 @@ void BM(string pat, string txt)
 
 <br/>
 
-### Boyer Moore Hospool
+### Boyer Moore Horspool
 
+* Boyer Moore 알고리즘과 비슷한 시간복잡도 (평균 $$O(N/M)$$)를 가질 수 있으며, 구현이 간단함
+* Bad Match Table
+  * ASCII Size인 배열에서 특정 문자까지의 최소 거리
+    * 가장 오른쪽 문자에서 왼쪽으로 이동하며 가장 최초로 발생하는 거리
+      * 가장 오른쪽 문자열 및 없는 문자열은 Size 대입
 
-
-
-
+* Boyer Moore 알고리즘이니 오른쪽에서 왼쪽으로 비교
+  * text에서 가장 오른쪽에 있는 문자를 확인
+    * 아래 문자가 pattern 내에 존재하는 경우, pattern의 가장 우측에서 해당 문자의 거리만큼 skip  (Bad Match Table)
+    * 존재하지 않는 경우에도 Bad Match Table을 적용 (Default로 Pattern의 크기 대입)
 
 
 ```c++
-#include <cstring>
-#include <vector>
+#define NUM_OF_CHARS 256
 
-int ascii[256];
-
-void create_Bad_Match_table(char pattern[]){
-    int len_p;
-    for (len_p = 0; pattern[len_p] != '\0'; len_p++);
-    
-    // value 0 is filled to length of pattenr    
-    for (int i=0; i<256;i++){
-        if (ascii[i] == 0) ascii[i] = len_p;
-    }
-
-    for (int i=0; i<len_p-1; i++){ // last character is skip
-        ascii[pattern[i]] = len_p - i - 1;
-    }
-
+vector<int> createBC(string pat)
+{
+    int M = pat.length();
+    vector<int> bc(NUM_OF_CHARS);
+    for (int i = 0; i < NUM_OF_CHARS; ++i)
+        if (bc[i] == 0) bc[i] = M;
+    for (int i = 0; i < M - 1; ++i) // last character is skip
+        bc[(int)pat[i]] = M-i-1;
+    return bc;
 }
 
-std::vector<int>Hospool(char* text, char* pattern){
+std::vector<int> Horspool(string pat, string text)
+{
     std::vector<int> res;
-    int len_p, len_t;
-    for (len_t = 0; text[len_t] != '\0'; len_t++);
-    for (len_p = 0; pattern[len_p] != '\0'; len_p++);
-    create_Bad_Match_table(pattern);
-
-    int i =0, j =0, k =0;
-    while(i <= len_t-len_p) {
-        j = len_p-1; // pattern index from right
-        k = i + len_p-1; // text index from right
-        while(j >= 0 && pattern[j] == text[k]) {
-            --j; --k;
+    int N = text.length(), M = pat.length();
+    vector<int> bc = createBC(pat);
+    int i = 0, j = 0, k = 0;
+    while (i <= N - M)
+    {
+        j = M - 1;     // pattern index from right
+        k = i + M - 1; // text index from right
+        while (j >= 0 && pat[j] == text[k])
+        {
+            --j;
+            --k;
         }
-        if (j == -1) {
-            printf("%d\n",i);
+        if (j == -1)
+        {
+            printf("start index is %d\n", i);
             res.push_back(i); // start index
         }
-        i += ascii[text[i + len_p - 1]]; // text index from right
+        i += bc[text[i + M - 1]]; // text index from right
     }
     return res;
 }
-
 ```
 
