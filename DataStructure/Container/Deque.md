@@ -8,6 +8,8 @@ sort: 5
 * 양 끝에 element를 추가/삭제를 진행할 때 O(1)의 속도로 수행할 수 있다.
 * 양방향에 Push / Pop이 빈번하게 사용되는 경우 사용하기 좋음
 
+* Front와 Back을 참조할 수 있으며, LinkedList로 구현하여 Size가 자동으로 변경됨
+
 <br/>
 
 ![Deque1](./Img/Deque1.png)

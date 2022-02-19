@@ -7,7 +7,7 @@ sort: 3
 * LIFO (Last In First Out) 을 따르는 Container
   * Push : 리스트의 가장 우측에 값을 넣음
   * Pop :  리스트의 가장 오른쪽 값을 제거
-* Top에 위치한 값을 참조할 수 있으며, Linked List로 구현하여 Size가 자동으로 할당됨
+* Top에 위치한 값을 참조할 수 있으며, Linked List로 구현하여 Size가 자동으로 변경됨
 
 <br/>
 

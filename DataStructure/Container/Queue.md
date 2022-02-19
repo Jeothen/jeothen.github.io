@@ -9,6 +9,8 @@ sort: 2
   * Push : 리스트의 가장 우측에 값을 넣음
 
   - Pop : 리스트의 가장 좌측 값을 제거
+  
+* Front와 Back을 참조할 수 있으며, LinkedList로 구현하여 Size가 자동으로 변경됨
 
 <br/>
 
