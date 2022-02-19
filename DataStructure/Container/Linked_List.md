@@ -4,7 +4,7 @@ sort: 1
 
 # Linked List
 
-**단순 링크드리스트**
+### 단순 링크드리스트 (Singly Linked List) 
 
 * Asd
 
@@ -14,7 +14,7 @@ sort: 1
 
 ```
 
-**원형 링크드리스트**
+### 원형 링크드리스트 (Circular Linked List)
 
 * asdasd
 
@@ -24,7 +24,7 @@ sort: 1
 
 ```
 
-**이중 링크드리스트**
+### 이중 링크드리스트 (Doubly Linked List)
 
 * asd
 
