@@ -10,6 +10,10 @@ sort: 2
 
   - Pop : 리스트의 가장 좌측 값을 제거
 
+<br/>
+
+![Queue](./Img/Queue.png)
+
 **Code**
 
 ```c++
@@ -23,30 +27,30 @@ struct qnode
 };
 
 template <typename T>
-class Queue
+class _Queue
 {
 private:
-    qnode *front, *rear;
+    qnode *first, *rear;
     int _size;
 
 public:
-    Queue()
+    _Queue()
     {
-        front = rear = NULL;
+        first = rear = NULL;
         _size = 0;
     }
-    ~Queue()
+    ~_Queue()
     {
-        while (!isempty())
+        while (!empty())
             pop();
     }
-    void insert(T data)
+    void push(T data)
     {
         qnode *node = (qnode *)malloc(sizeof(qnode));
         node->value = data;
         node->next = NULL;
-        if (isempty())
-            front = rear = node;
+        if (empty())
+            first = rear = node;
         else
         {
             rear->next = node;
@@ -54,18 +58,37 @@ public:
         }
         _size++;
     };
-    T pop()
+    void pop()
     {
-        if (isempty())
-            return -1;
-        qnode *delnode = front;
-        T res = delnode->value;
-        front = delnode->next;
+        if (empty())
+        {
+            cout << "There's no component\n";
+            return;
+        }
+        qnode *delnode = first;
+        first = delnode->next;
         free(delnode);
         _size--;
-        return res;
     }
-    bool isempty() { return !_size; }
+    T front(){
+        if (empty())
+        {
+            cout << "There's no component\n";
+            return-1;
+        }
+        return first->value;
+    }
+    T back()
+    {
+        if (empty())
+        {
+            cout << "There's no component\n";
+            return -1;
+        }
+        return rear->value;
+    }
+
+    bool empty() { return !_size; }
     int size() { return _size; }
 };
 ```

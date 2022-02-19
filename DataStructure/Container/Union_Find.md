@@ -41,7 +41,8 @@ void _union(int a, int b) {
 
 **DSU**
 
-
+* DSU (Disjoint Set Union)는 Union과 Find 기능을 제공하는 Container
+* 
 
 ```c++
 #include <iostream>

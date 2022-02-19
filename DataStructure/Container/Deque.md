@@ -8,6 +8,12 @@ sort: 5
 * 양 끝에 element를 추가/삭제를 진행할 때 O(1)의 속도로 수행할 수 있다.
 * 양방향에 Push / Pop이 빈번하게 사용되는 경우 사용하기 좋음
 
+<br/>
+
+![Deque1](./Img/Deque1.png)
+
+![Deque2](./Img/Deque2.png)
+
 
 
 **Code**
@@ -19,10 +25,11 @@ using namespace std;
 template <typename T>
 class DEQUE;
 
-template<typename T>
+template <typename T>
 class NODE
 {
     friend class DEQUE<T>;
+
 private:
     T data;
     NODE *left;
@@ -109,7 +116,8 @@ public:
 
     void pop_front()
     {
-        if (!_size) cout << "deque is emptied" << endl;
+        if (!_size)
+            cout << "deque is emptied" << endl;
         else
         {
             NODE<T> *pos = head->right;
@@ -121,7 +129,8 @@ public:
     }
     void pop_back()
     {
-        if (!_size) cout << "deque is emptied" << endl;
+        if (!_size)
+            cout << "deque is emptied" << endl;
         else
         {
             NODE<T> *pos = tail->left;
@@ -133,12 +142,18 @@ public:
     }
     T front()
     {
-        if (!_size) cout << "deque is emptied" << endl;
+        if (!_size) {
+            cout << "deque is emptied" << endl;
+            return -1;
+        }
         else return head->right->data;
     }
     T back()
     {
-        if (!_size) cout << "deque is emptied" << endl;
+        if (!_size) {
+            cout << "deque is emptied" << endl;
+            return -1;
+        }
         else return tail->left->data;
     }
     int size()
@@ -156,7 +171,8 @@ public:
         NODE<T> *pos = head;
         while (pos != NULL)
         {
-            if (!(pos == head || pos == tail)) cout << pos->data << " ";
+            if (!(pos == head || pos == tail))
+                cout << pos->data << " ";
             pos = pos->right;
         }
         cout << endl;
