@@ -157,7 +157,7 @@ int main()
 
 
 
-### 중복 순열 (Recursive Permutation)
+### 중복 순열 (Recursive with repetition)
 
 *  서로 다른 n개의 원소에서 중복을 포함하여 r개를 채택하여 순서대로 정렬한 것
 * $$_n \Pi _r  = n^r$$ 임을 직관적으로 확인할 수 있다.

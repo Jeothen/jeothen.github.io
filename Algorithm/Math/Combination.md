@@ -176,7 +176,7 @@ int main()
 
 
 
-### 중복 조합 (Recursive Combination)
+### 중복 조합 (Combination with repetition)
 
 * 조합과 동일하나 중복을 허용하기 때문에 같은 숫자를 여러번 뽑는 것이 가능
 * $$_nH_k = _{n+k-1}C_{k-1}$$
