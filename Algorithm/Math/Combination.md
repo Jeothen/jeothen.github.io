@@ -30,7 +30,7 @@ void combination(int n, int q, int k, int start)
 {
     if (k == q)
     {
-        count2++;
+        count2++; // print loop
         return;
     }
     for (int i = start; i < n; i++) //  0
@@ -193,7 +193,7 @@ void repeat_combination(int n, int q, int k, int start)
 {
     if (k == q)
     {
-        count++;
+        count++; // print loop
       	return;
     }
     for (int i = start; i < n; i++)
@@ -227,9 +227,9 @@ void repeat_combination1(int n, int k, int q)
     if (k == 0)
     { // Picked all n
         count1++;
-/*        for (int i = 0; i < q; i++)
-            printf("%d ", t1[i]);
-        printf("\n");*/
+        /*        for (int i = 0; i < q; i++)
+                    printf("%d ", t1[i]);
+                printf("\n");*/
     }
     else if (n == 0)
         return;
@@ -247,9 +247,9 @@ void repeat_combination2(int n, int q, int k, int start)
     if (k == q)
     { // k is filled to q
         count2++;
-/*        for (int i = 0; i < q; i++)
-            printf("%d ", t2[i]);
-        cout << endl;*/
+        /*        for (int i = 0; i < q; i++)
+                    printf("%d ", t2[i]);
+                cout << endl;*/
         return;
     }
     for (int i = start; i < n; i++)
@@ -263,18 +263,14 @@ int main()
 {
     n = 100;
     count1 = 0, count2 = 0;
-    for (int i = 0; i < (n/2); i++)
+    for (int i = 0; i < 100; i++)
     {
-        cout << i << endl;
         data1[i] = i + 1;
-    }
-    for (int i=n/2; i <n; i++) {
-        data1[i] = i-(n/2)+1;
     }
     // 100H5
     clock_t start = clock();
     repeat_combination1(n, 5, 5);
-    cout << "Comb1 = " << clock()-start << "\n"; // 662784
+    cout << "Comb1 = " << clock() - start << "\n"; // 662784
     start = clock();
     repeat_combination2(n, 5, 0, 0);
     cout << "Comb2 = " << clock() - start << "\n"; // 321057

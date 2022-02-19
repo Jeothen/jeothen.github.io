@@ -23,7 +23,7 @@ void permutation1(int n, int q, int k)
 {
     if (k == q)
     {
-        count1++;
+        count1++; // print loop
     }
     else
     {
@@ -175,7 +175,7 @@ void repeat_permutation(int n, int q, int k)
 {
     if (k == q)
     { 
-        count1++;
+        count1++; // print loop
         return;
     }
     for (int i = 0; i < n; i++)
