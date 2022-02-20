@@ -2,7 +2,7 @@
 sort: 1
 ---
 
-# Computer System
+# Computer Architecture
 
 
 
