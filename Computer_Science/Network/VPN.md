@@ -29,3 +29,19 @@ sort: 13
 ![workHome_VPN](./Img/VPN.png)
 
 <div style="text-align: right"> Image ref : https://namu.wiki/w/%EA%B0%80%EC%83%81%20%EC%82%AC%EC%84%A4%EB%A7%9D?from=VPN </div>
+
+
+
+
+
+### Tor
+
+* The Online Router의 약자로, "토어"라고 읽음. 네트워크 우회 및 익명을 위해 사용되는 Free Software
+* 암호화는 비대칭키를 기반으로 하며, Router를 거치면서 순차적으로 공개키로 암호화하여 메시지를 전송함
+  * 여러 네트워크를 경유하여 전송하기 때문에 속도는 느림
+* ISP를 통해 데이터를 전송할 때는 쉽게 검열당할 수 있지만, Tor를 이용하면 중간에 거쳐간 모든 node를 확인해야 Source를 확인할 수 있음
+* 이용자들간 자신의 PC를 라우팅 Node로 사용할 수 있게 설정함으로써 네트워크 속도 및 보안성 향상
+
+![Tor](./Img/Tor.png)
+
+<div style="text-align: right"> Image ref : https://namu.wiki/w/Tor(%EC%9D%B5%EB%AA%85%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC)?from=%ED%86%A0%EB%A5%B4%20%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80 </div>
