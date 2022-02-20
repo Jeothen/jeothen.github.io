@@ -9,6 +9,7 @@ sort: 10
 * Proxy 역할을 하는 Server를 Proxy Server라고 함
 * Proxy를 도입한 이유는 인터넷 속도의 향상이었지만 현재 [CDN](https://jeothen.github.io/Computer_Science/Network/CDN.html)으로 대체되었고, 데이터 전송시 IP 주소를 우회하여 숨길 수 있음
   * VPN에서는 전송 내용(Traffic)을 암호화하여 보안성을 향상했지만, Proxy는 전송 내용을 암호화를 하지 않음
+  * Proxy는 응용프로그램 수준에서 Routing 및 암호화하지만, VPN은 전체 네트워크 Traffic을 Routing 및 암호화
 * 내부 보안이 필요한 다수의 기업에서 Proxy Server를 구축하여 외부 망에 접속 
 * Web Cache 기능을 제공하는 경우가 많아서 Cache에 데이터가 없는 경우 origin Server에서 데이터를 받아오고 Cache에 저장
   * Cache를 이용함으로써 빠른 응답속도, Server Traffic 감소 효과
