@@ -108,7 +108,10 @@ public :
 
 ### 원형 링크드리스트 (Circular Linked List)
 
-* asdasd
+* 단순 링크드리스트에서 Head / Tail의 data에 값 추가
+* 아래 예시는 Tail만 기입했지만, Head도 추가하여 리스트 최상단에 Data 추가할 수 있음
+
+![Circular](./Img/Circular.png)
 
 **Code**
 
@@ -130,136 +133,6 @@ public :
 **Code**
 
 ```c++
-//--------------------------------------------------------------------------------------------
-#include <stdio.h>
-#include <stdlib.h>
- 
-typedef struct _node{
-    int i;                 //노드의 구성요소 첫번째. 값
-    struct _node *nextadd; //노드의 구성요소 두번째. 다음 값을 가리키는 주소
-}NODE;
- 
-NODE *firstnode=NULL;//첫번째 노드
-NODE *lastnode=NULL;//마지막 노드
- 
-void add(int num){//맨 뒤에 추가함
-    NODE *newnode = (NODE *)malloc(sizeof(NODE)); //먼저 생성하고 보자
-    newnode->i = num;
-    newnode->nextadd = NULL;
-    if (firstnode == NULL)
-    { //처음으로 이 함수가 실행되면
-        firstnode = newnode;
-        lastnode = newnode;
-    }
-    else
-    {                                //처음이 아니면 뒤에 계속 추가. lastnode가 계속 바뀐다
-        lastnode->nextadd = newnode; //원래 lastnode가 가리키는 곳이 새로 생성된 노드의 값을 가리키게 한 후,
-        lastnode = newnode;          //방금 생성한 노드가 맨 끝자리에 추가했으므로 방금 생성한 노드가 lastnode가 된다.
-    }
-}
- 
-void erase(int num){
-    NODE *temp = firstnode->nextadd;
-    if (firstnode == NULL)
-    {
-        printf("값이 없는데 지울수 있을까요? => 지울수 없습니다.\n");
-        return;
-    }
-    if (firstnode->i == num)
-    { //첫번째 노드의 값==입력값
-
-        firstnode = firstnode->nextadd;
-        free(temp);
-    }
-    else
-    {
-        NODE *before = firstnode;
-        while (1)
-        {
-            if (temp->i == num)
-            {
-                NODE *node_free = temp;
-                before->nextadd = temp->nextadd;
-                free(node_free);
-                break;
-            }
-            else
-            {
-                if (temp->nextadd == NULL)
-                {
-                    printf("값이 없는데요? 이게 어터케 된 일이죠? 네?\n");
-                    break;
-                }
-                before = before->nextadd;
-                temp = temp->nextadd;
-            }
-        }
-    }
-    return;
-}
- 
-void show(){
-    int i;
-    if (firstnode == NULL)
-    {
-        printf("값이 없어용\n");
-        return;
-    }
-    else
-    {
-        NODE *temp = firstnode;
-        for (i = 1; temp != NULL; ++i)
-        {
-            printf("%d번째 값 : %d\n", i, temp->i);
-            temp = temp->nextadd;
-        }
-    }
-}
- 
-int main(){
-    int select, i, input, input_num;
-    while (1)
-    {
-        printf("\n\n0 : 종료\n");
-        printf("1 : 노드 생성\n");
-        printf("2 : 노드 삭제\n");
-        printf("3 : 노드 보기\n");
-        printf("0~3 선택 : ");
-        scanf("%d", &select);
-
-        if (select == 0)
-        {
-            return 0;
-        }
-        else if (select == 1)
-        {
-            printf("몇개 생성? : ");
-            scanf("%d", &input);
-            for (i = 1; i <= input; ++i)
-            {
-                printf("%d번째 생성중입니다....\n값을 입력해주세요 : ", i);
-                scanf("%d", &input_num);
-                add(input_num);
-            }
-        }
-        else if (select == 2)
-        {
-            printf("몇개 삭제? : ");
-            scanf("%d", &input);
-            for (i = 1; i <= input; ++i)
-            {
-                printf("%d번째 삭제중입니다....\n지울 값을 입력해주세요 : ", i);
-                scanf("%d", &input_num);
-                erase(input_num);
-            }
-        }
-        else if (select == 3)
-        {
-            show();
-        }
-    }
-}
-
 //--------------------------------------------------------------------------------------------
 
 #include <stdio.h>
