@@ -6,12 +6,104 @@ sort: 1
 
 ### 단순 링크드리스트 (Singly Linked List) 
 
-* Asd
+* head와 tail은 NULL 값으로 유지한 채 처음과 끝을 알려주는 Pointer로 사용
+* 새로운 노드가 추가되거나 삭제될 때, pre/next Pointer가 가리키는 위치를 변경해서 연결
+* Stack / Queue 등에서 사용되는 Linked List 
+
+![Singly](./Img/Singly.png)
 
 **Code**
 
 ```c++
+struct node
+{
+    int data;
+    node *next;
+};
 
+template <typename T>
+class linked_list{
+    node *head, *tail;
+    int _size;
+public :
+    linked_list()
+    {
+        head = (node*)malloc(sizeof(node));
+        tail = (node*)malloc(sizeof(node));
+        head->next = tail;
+        _size = 0;
+    }
+    ~linked_list()
+    {
+        clear();
+        free(head);
+        free(tail);
+    }
+    void addFront(T value){
+        node* newnode = (node*)malloc(sizeof(node));
+        newnode->data = value;
+        newnode->next = head->next;
+        head->next = newnode;
+        _size++;
+    }
+    void addBack(T value){
+        node *newnode = (node *)malloc(sizeof(node));
+        newnode->data = value;
+        newnode->next = tail;
+        node* back = head; 
+        while(back->next != tail) {
+            back = back->next; // singly..
+        }
+        back->next = newnode;
+        _size++;
+    }
+    int search_first_index(T value){
+        int idx = 0;
+        node* tmp = head;
+        while (tmp->next != tail){
+            tmp = tmp->next;
+            idx++;
+            if (tmp->data == value) return idx;
+        }
+        return -1;
+    }    
+    void remove_first_node(T value){
+        node* tmp = head;
+        while (tmp->next != tail){
+            if (tmp->next->data == value){
+                node* delnode = tmp->next;
+                tmp->next = delnode->next;
+                free(delnode);
+                _size--;
+                return;
+            }
+            tmp = tmp->next;
+        }
+        cout <<"There's no component " << value << endl;
+        return;
+    }
+    void printall(){
+        node* tmp = head->next;
+        if (empty()) return;
+        while(tmp != tail){
+            cout << tmp->data << " ";
+            tmp = tmp->next;
+        }
+        cout << endl;
+    }
+    bool empty(){return !_size;}
+    int size() {return _size;}
+    void clear(){
+        node* tmp = head->next;
+        while (!empty()){
+            node* delnode = tmp;
+            tmp = delnode->next;
+            free(delnode);
+            _size--;
+        }
+        head->next = tail;
+    }
+};
 ```
 
 ### 원형 링크드리스트 (Circular Linked List)
