@@ -25,21 +25,21 @@ sort: 2
   * opcode(operation code) : Control Signal Table에서 ALU의 명령어를 관리하는 ADD, SUB, AND 등 3bit(or 4bit)로 구성
   * Operand : 상수, 메모리 주소, register 등 opcode가 연산을 수행하는 대상
 
-* Intel의 x86, AMD x86-64는 CISC로 설계되었고,  ARM의 v8 RISC로 설계됨
+* Intel의 x86, AMD x86-64는 CISC로 설계되었고,  ARM의 v8, MIPS는 RISC로 설계됨
   * 제조사마다 Architecture가 다르기 때문에 CPU의 명령어 해석구조도 다름
 
 * **CISC** (Complex Instruction Set Computer)
-  * 자주 사용하지 않는 명령어가 많아 복잡하고, 디코딩하여 사용하기 때문에 속도가 느림
-  * 다양한 명령어로 다양한 Addressing mode를 지원하여  
-  * 
+  * 가변 형식 명령어를 사용하고 명령어가 많고 복잡하고, 디코딩하여 사용하기 때문에 속도가 느림
+  * 다양한 명령어와 다양한 Addressing mode를 사용하여 많은 메모리 참조 연산을 수행
+  * 메인 메모리를 효율적으로 사용할 수 있고, 명령어가 복잡하기 때문에 새로운 명령을 쉽게 추가할 수 있음
+  * 다양한 명령이 클럭에 영향을 줄 수 있기 때문에 기계 성능 저하
 * **RISC** (Reduced Instruction Set Computer)
-  * 
-  * ARM, MIPS
-  * CICS를 사용하는 x86에서도 복잡한 명령을 내부에서 RICS처럼 간단한 명령으로 나누어 처리함
+  * 고정된 명령어를 사용하고 명령어가 적으며 간단한 Addressing mode를 사용
+  * Register 기반 명령을 사용하기 때문에 Context Swiching의 속도가 향상됨
+  * 컴파일러에 많은 복잡성을 부여하여 프로세서 성능에 영향을 줄 수 있음
+  * CICS를 사용하는 x86에서도 복잡한 명령을 내부에서 RICS처럼 간단한 명령으로 나누어 처리하기 때문에 경계가 모호해지고 있음 
 
-
-
-
+* CISC는 적은 수의 Assembly Code로 작업을 완료하고, RISC는 각 명령이 실행되는데 걸리는 시간을 줄이는 데 장점
 
 ### MicroArchitecture
 
