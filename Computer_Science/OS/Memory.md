@@ -6,3 +6,13 @@ sort: 18
 
 
 
+
+
+
+
+**Memory Operand**
+
+
+
+**Endian**
+

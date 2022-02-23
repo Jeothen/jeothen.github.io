@@ -47,20 +47,3 @@ sort: 1
 
 <div style="text-align: right"> https://slideplayer.com/slide/5893173/</div>
 
-Computer Architecture는 크게 3가지 하위 분류로 구성됨
-
-### System Design
-
-* 
-
-
-
-### MicroArchitecture
-
-* Computer Architecture는 
-
-
-
-### Instruction Set Architecture (ISA)
-
-* 
