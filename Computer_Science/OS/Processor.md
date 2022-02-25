@@ -13,9 +13,11 @@ sort: 2
   * Core는 Control Unit, ALU와 같은 직접 연산을 수행하는 부품과 자체 Cache Memory로 구성
   * Multi Core(두 개 이상의 Core를 단일 집적회로로 하나의 칩으로 만듦) 프로세서를 이용하여 CPU 성능을 향상
 
-![CPU](./Img/Processor.png)
+![Processor](./Img/Processor.png)
 
 <div style="text-align: right"> https://www.sciencedirect.com/topics/computer-science/core-processor </div>
+
+<br/>
 
 ### Instruction Set Architecture (ISA)
 
@@ -24,10 +26,8 @@ sort: 2
 * CPU마다 기계어의 코드가 달라서 호환의 어려움이 있고, 명령어는 opcode, operand로 구성됨
   * opcode(operation code) : Control Signal Table에서 ALU의 명령어를 관리하는 ADD, SUB, AND 등 3bit(or 4bit)로 구성
   * Operand : 상수, 메모리 주소, register 등 opcode가 연산을 수행하는 대상
-
 * Intel의 x86, AMD x86-64는 CISC로 설계되었고,  ARM의 v8, MIPS는 RISC로 설계됨
   * 제조사마다 Architecture가 다르기 때문에 CPU의 명령어 해석구조도 다름
-
 * **CISC** (Complex Instruction Set Computer)
   * 가변 형식 명령어를 사용하고 명령어가 많고 복잡하고, 디코딩하여 사용하기 때문에 속도가 느림
   * 다양한 명령어와 다양한 Addressing mode를 사용하여 많은 메모리 참조 연산을 수행
@@ -38,14 +38,35 @@ sort: 2
   * Register 기반 명령을 사용하기 때문에 Context Swiching의 속도가 향상됨
   * 컴파일러에 많은 복잡성을 부여하여 프로세서 성능에 영향을 줄 수 있음
   * CICS를 사용하는 x86에서도 복잡한 명령을 내부에서 RICS처럼 간단한 명령으로 나누어 처리하기 때문에 경계가 모호해지고 있음 
-
 * CISC는 적은 수의 Assembly Code로 작업을 완료하고, RISC는 각 명령이 실행되는데 걸리는 시간을 줄이는 데 장점
+
+<br/>
 
 ### MicroArchitecture
 
-* ISA에 구현하는 방법을 정의
+* CPU나 GPU 같은 H/W의 작동 방식 및 회로를 세부적으로 서술한 프로세서 설계도
+* 일반적으로 마이크로 아키텍처가 다르면 ISA도 다르지만, 비슷한 명령을 갖는 경우도 있음
+* 아래 2가지 예시
+
+<br/>
+
+**NVIDIA COPA GPU**
+
+<br/>
+
+![GPU](./Img/GPU.png)
 
 
 
+<div style="text-align: right"> https://arxiv.org/pdf/2104.02188.pdf </div>
 
+
+
+**Intel 2 Core**
+
+<br/>
+
+![CPU](./Img/CPU.png)
+
+<div style="text-align: right"> https://en.wikipedia.org/wiki/Intel_Core_(microarchitecture) </div>
 
