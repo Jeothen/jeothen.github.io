@@ -7,8 +7,23 @@ sort: 3
 * 운영체제의 핵심으로 시스템을 통제하여 서비스를 제공
 
 * User Process는 H/W에 직접 명령을 줄 수 없기 떄문에, Kernel 이라는 Interface를 이용하여 연결
-  * Memory Management, Process Management, Device Driver, Network, File System, IPC 등 영역을 이용하여 User Process와 System Call을 주고 받으며 명령을 수행
+  * Memory Management, Process Management, Device Driver, Network, File System, IPC 등 영역에서 User Process와 System Call을 통해 명령을 수행
 * 추상화 계층 (HAL) : HW의 차이를 숨겨서 프로그램의 일관성 유지
+
+<br/>
+
+### System Call
+
+* 운영체제는 User Mode와 Kernel Mode로 나뉘어서 구동됨
+* 고급 프로그래밍 언어로 작성된 프로그램에서 직접 Kernel에 접근할 수 없기 때문에, API를 이용하여 System Call이라는 Interface에 접근
+
+![System Call](./Img/System Call.png)
+
+![System_Call_Example](./Img/System_Call_Example.png)
+
+<div style="text-align: right"> Image ref : https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/2_Structures.html</div>
+
+<br/>
 
 **역할**
 
@@ -28,19 +43,21 @@ sort: 3
 
 <br/>
 
-**Monolithic & Micro Kernel**
+### Kernel Types
 
-* Monolithc Kernel
-  * 단일형 커널로, 운영체제에서 발생하는 모든 작업을 하나의 커널이 처리하여 성능이 좋음
-  * 모든 모듈이 같은 주소 공간에 있어 Kernel의 크기가 크며, 코드의 집적도가 높아 유지보수가 어려움
-  * 하나의 Service에 문제가 생기면 전체 Kernel에 영향을 주며, Device Driver에 변경이 있는 경우 Kernel 재빌드 필요
-  * UNIX, LINUX 등에서 사용
+**Monolithc Kernel**
 
-* Micro Kernel 
-  * 핵심적인 기능(IPC, Memory, Scheduling)만 남겨서 Kernel의 크기를 줄이고, Device Driver, File System 같은 제외된 Service 영역은 Kernel 위에 Server 형태로 제공
-  * 하나의 Server에 문제가 생기더라도 Kernel에는 영향이 없으며, 장치에 변경이 있어도 Kernel 재빌드 안 해도 됨
-  * 서버의 형태로 통신을 하기 때문에 overhead 발생
-  * RealTIme이 중요한 OS에서 사용
+* 단일형 커널로, 운영체제에서 발생하는 모든 작업을 하나의 커널이 처리하여 성능이 좋음
+* 모든 모듈이 같은 주소 공간에 있어 Kernel의 크기가 크며, 코드의 집적도가 높아 유지보수가 어려움
+* 하나의 Service에 문제가 생기면 전체 Kernel에 영향을 주며, Device Driver에 변경이 있는 경우 Kernel 재빌드 필요
+* UNIX, LINUX 등에서 사용
+
+**Micro Kernel** 
+
+* 핵심적인 기능(IPC, Memory, Scheduling)만 남겨서 Kernel의 크기를 줄이고, Device Driver, File System 같은 제외된 Service 영역은 Kernel 위에 Server 형태로 제공
+* 하나의 Server에 문제가 생기더라도 Kernel에는 영향이 없으며, 장치에 변경이 있어도 Kernel 재빌드 안 해도 됨
+* 서버의 형태로 통신을 하기 때문에 overhead 발생
+* RealTIme이 중요한 OS에서 사용
 
 ![MicroKernel](./Img/MicroKernel.png)
 
@@ -75,3 +92,12 @@ sort: 3
 
 
 <div style="text-align: right"> Image ref : https://ko.wikipedia.org/wiki/엑소커널</div>
+
+
+
+
+
+
+
+
+
