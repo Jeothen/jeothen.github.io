@@ -4,5 +4,12 @@ sort: 4
 
 # System Call
 
-**OS Structure**
 
+
+
+
+
+
+
+
+![System Call](./Img/System Call.png)

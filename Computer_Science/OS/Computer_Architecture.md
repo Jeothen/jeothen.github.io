@@ -45,5 +45,5 @@ sort: 1
 
 ![Computer_Structure](./Img/Computer_Architecture.png)
 
-<div style="text-align: right"> https://slideplayer.com/slide/5893173/</div>
+<div style="text-align: right"> Image ref : https://slideplayer.com/slide/5893173/</div>
 

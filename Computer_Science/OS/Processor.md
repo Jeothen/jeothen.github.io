@@ -15,7 +15,7 @@ sort: 2
 
 ![Processor](./Img/Processor.png)
 
-<div style="text-align: right"> https://www.sciencedirect.com/topics/computer-science/core-processor </div>
+<div style="text-align: right">Image Ref : https://www.sciencedirect.com/topics/computer-science/core-processor </div>
 
 <br/>
 
@@ -58,7 +58,7 @@ sort: 2
 
 
 
-<div style="text-align: right"> https://arxiv.org/pdf/2104.02188.pdf </div>
+<div style="text-align: right">Image Ref : https://arxiv.org/pdf/2104.02188.pdf </div>
 
 
 
@@ -68,5 +68,5 @@ sort: 2
 
 ![CPU](./Img/CPU.png)
 
-<div style="text-align: right"> https://en.wikipedia.org/wiki/Intel_Core_(microarchitecture) </div>
+<div style="text-align: right">Image Ref : https://en.wikipedia.org/wiki/Intel_Core_(microarchitecture) </div>
 
