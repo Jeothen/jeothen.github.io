@@ -37,140 +37,108 @@ sort: 8
 **Code**
 
 ```c++
-```
-
-
-
-**Code**
-
-```c++
 #include <iostream>
-#pragma warning(disable:4996)
+#include <string>
+using namespace std;
 
-#define max 200001
-
-int n, namecount;
-
-typedef struct node {
-	node* next;
-	int index;
-	char* name;
-}node;
-
-node arr[max];
-
-int idx = 0;
-
-
-int hashcode(char* str) {
-	int hash = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
-		hash = (hash * 7 + 5 * str[i]) % max;
-	}
-	return hash;
-}
-
-node* h[max];
-
-int get(char* name) {
-	int hash = hashcode(name);
-	node* curr = h[hash];
-	while (curr) {
-		int issame = 1;
-		for (int i = 0; i < 21; i++) {
-			if (name[i] != curr->name[i]) {
-				issame = 0;
-				break;
-			}
-		}
-		if (issame) return curr->index;
-		curr = curr->next;
-	}
-}
-
-node* createnode(char* name, int index) {
-	node* newnode = &arr[idx++];
-	newnode->name = name;
-	newnode->index = index;
-	return newnode;
-}
-
-void put(char* name, int index) {
-	int hash = hashcode(name);
-	node* ne = createnode(name, index);
-	if (!h[hash]) h[hash] = ne;
-	else {
-		ne->next = h[hash];
-		h[hash] = ne;
-	}
-}
-
-int iscontain(char* name) {
-	int hash = hashcode(name);
-	if (!h[hash]) {
-		return 0;
-	}
-	else {
-		node* curr = h[hash];
-		while (curr) {
-			int issame = 1;
-			for (int i = 0; i < 21; i++) {
-				if (name[i] != curr->name[i]) {
-					issame = 0;
-					break;
-				}
-			}
-			if (issame) return 1;
-			curr = curr->next;
-		}
-		return 0;
-	}
-}
-
-int parent[max];
-int size[max];
-
-int find(int c) {
-	if (parent[c] == c) return c;
-	return parent[c] = find(parent[c]);
-}
-
-int unite(int a, int b) {
-	int pa = find(a);
-	int pb = find(b);
-
-	if (pa != pb) {
-		parent[pb] = pa;
-		size[pa] += size[pb];
-
-	}
-	return size[pa];
-}
-
-
-int main() {
-	int te, count;
-	scanf("%d", &te);
-	for (int tc = 1; tc <= te; tc++) {
-		count = 0;
-		scanf("%d", &n);
-		for (int i = 0; i < max; i++) {
-			parent[i] = i;
-			size[i] = 1;
-		}
-		for (int i = 0; i < n; i++) {
-			char* a = (char*)malloc(sizeof(char) * 21);
-			char* b = (char*)malloc(sizeof(char) * 21);
-			scanf("%s %s", a, b);
-			if (iscontain(a) == 0)
-				put(a, namecount++);
-			if (iscontain(b) == 0)
-				put(b, namecount++);
-			count = unite(get(a), get(b));
-			printf("%d\n", count);
-		}
-	}
-}
+template<typename T>
+class HashMap{
+    struct node {
+        bool isfill = false;
+        string key;
+        T value;
+        node* next = NULL;
+    };
+    int size, idx;
+    node* arr;
+public :
+    HashMap(int _size){
+        size = _size;
+        arr = (node*)malloc(sizeof(node)*_size);
+    }
+    ~HashMap(){
+        size = 0;
+        free(arr);
+    }
+    int hashcode(string _key){
+        int hash = 0;
+        for (int i = 0; i < _key.size(); i++) {
+            hash = (hash * 77 + 11 * _key[i]) % size;
+        }
+        cout << hash << endl;
+        hash = 0;
+        cout << _key << endl;
+        return hash;
+    }
+    T get_value(string _key) {
+        int hash = hashcode(_key);
+        node* cur = &arr[hash];
+        while(cur){
+            if (cur->key == _key) {
+                return cur->value;
+            }
+            cur = cur->next;
+        }
+        return "Not Found Key";
+//        return -1;
+    }
+    void insert(string _key, T _value){
+        int hash = hashcode(_key);
+        if (!arr[hash].isfill) {
+            arr[hash].key = _key, arr[hash].value = _value;
+            arr[hash].isfill = true;
+        }
+        else {
+            node* cur = &arr[hash];
+            while (cur->next) {
+                if (cur->key == _key){
+                    cur->value = _value;
+                    return;
+                }
+                cur = cur->next;
+            }
+            node* newnode = (node*)malloc(sizeof(node));
+            newnode->key=_key, newnode->value = _value, newnode->next = NULL;
+            cur->next = newnode;
+            return;
+        }
+    }
+    T remove(string _key){
+        int hash = hashcode(_key);
+        node *cur = &arr[hash];
+        while (cur->next)
+        {
+            if (cur->next->key == _key)
+            {
+                node* delnode = cur->next;
+                T res = cur->value;
+                cur->next = cur->next->next;
+                free(delnode);
+                return res;
+            }
+            cur = cur->next;
+        }
+        if (cur->key == _key){
+            T res = cur->value;
+            cur->isfill = false;
+            cur->key = "", cur->value = "";
+            return res;
+        }
+        return "Not Found Key";
+//        return -1;
+    }
+    void printall(){
+        for (int i=0; i<size;i++){
+            if (!arr[i].isfill) continue;
+            node* cur = &arr[i];
+            while(cur){
+                cout << cur->value << " ";
+                cur = cur->next;
+            }
+        }
+        cout << endl;
+    }
+};
 
 ```
 
