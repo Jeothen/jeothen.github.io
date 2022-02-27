@@ -94,6 +94,7 @@ public :
     bool empty(){return !_size;}
     int size() {return _size;}
     void clear(){
+      	if (empty()) return;
         node* tmp = head->next;
         while (!empty()){
             node* delnode = tmp;
@@ -108,15 +109,140 @@ public :
 
 ### 원형 링크드리스트 (Circular Linked List)
 
-* 단순 링크드리스트에서 Head / Tail의 data에 값 추가
-* 아래 예시는 Tail만 기입했지만, Head도 추가하여 리스트 최상단에 Data 추가할 수 있음
+* 단순 링크드리스트에서 Head / Tail의 data에 값 추가하고 연결
+  * Tail의 next가 Head이므로 굳이 Head를 사용할 필요가 없음
+
+* 노드의 마지막에 추가하는 것과 처음에 추가하는 것의 차이가 없음
+  * Tail Pointer의 위치 변경 유무만 차이가 있음
+
 
 ![Circular](./Img/Circular.png)
 
 **Code**
 
 ```c++
+template <typename T>
+class linked_list
+{
+    struct node
+    {
+        int data;
+        node *next;
+    };
+    int _size;
+    node *tail;
 
+public:
+    linked_list()
+    {
+        tail = NULL;
+        _size = 0;
+    }
+    ~linked_list()
+    {
+        clear();
+        delete tail;
+    }
+    void addFront(T value)
+    {
+        node *newnode = (node *)malloc(sizeof(node));
+        newnode->data = value;
+        if (empty()){
+            tail = newnode;
+            tail->next = tail;
+        }
+        else {
+            newnode->next = tail->next;
+            tail->next = newnode;
+        }
+        _size++;
+    }
+    void addBack(T value)
+    {
+        node *newnode = (node *)malloc(sizeof(node));
+        newnode->data = value;
+        if (empty()){
+            tail = newnode;
+            tail->next = tail;
+        }
+        else {
+            newnode->next = tail->next;
+            tail->next = newnode;
+            tail = newnode;
+        }
+        _size++;
+    }
+    int search_first_index(T value)
+    {
+        if (empty()) return -2;
+        int idx = 0;
+        node *tmp = tail->next;
+        while (tmp != tail) {
+            if (tmp->data == value)
+                return idx;
+            idx++;
+            tmp = tmp->next;
+        }
+        return -1;
+    }
+    int remove_first_index(T value){
+        if (empty()) return -2;
+        int idx = 0;
+        node* tmp = tail;
+        while(tmp->next != tail){
+            if (tmp->next->data == value) {
+                node* delnode = tmp->next;
+                tmp->next = (tmp->next)->next;
+                free(delnode);
+                _size--;
+                return idx;
+            }
+            idx++;
+            tmp = tmp->next;
+        }
+        if (tail->data == value) {
+            node* delnode = tail;
+            tmp->next = tail->next;
+            free(delnode);
+            _size--;
+            if (empty()) tail = NULL;
+            else tail = tmp->next;
+            return _size;
+        }
+        return -1;
+    }
+    void printall()
+    {
+        if (empty()) {
+            cout << "There's no component\n";
+            return;
+        }
+        node *tmp = tail->next;
+        while (tmp != tail)
+        {            
+            cout << tmp->data << " ";
+            tmp = tmp->next;
+        }
+        cout << tmp->data << " ";
+        cout << endl;
+    }
+
+    bool empty() { return !_size; }
+    int size() { return _size; }
+    void clear()
+    {
+        if (empty()) return;
+        node *tmp = tail->next;
+        while (!empty())
+        {
+            node *delnode = tmp;
+            tmp = delnode->next;
+            free(delnode);
+            _size--;
+        }
+        tail = NULL;
+    }
+};
 ```
 
 ### 이중 링크드리스트 (Doubly Linked List)
@@ -244,6 +370,7 @@ public:
     int size() { return _size; }
     void clear()
     {
+      	if (empty()) return;
         node* tmp = head->next;
         while (!empty())
         {
