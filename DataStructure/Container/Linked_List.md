@@ -7,7 +7,7 @@ sort: 1
 ### 단순 링크드리스트 (Singly Linked List) 
 
 * head와 tail은 NULL 값으로 유지한 채 처음과 끝을 알려주는 Pointer로 사용
-* 새로운 노드가 추가되거나 삭제될 때, pre/next Pointer가 가리키는 위치를 변경해서 연결
+* 새로운 노드가 추가되거나 삭제될 때, next Pointer가 가리키는 위치를 변경해서 연결
 * Stack / Queue 등에서 사용되는 Linked List 
 
 ![Singly](./Img/Singly.png)
@@ -121,254 +121,139 @@ public :
 
 ### 이중 링크드리스트 (Doubly Linked List)
 
-* asd
+* 각 노드가 선행/후행 노드와 연결되어 있음
+* Head node와 Tail node가 NULL 값으로 유지한 채 처음과 끝을 알려주는 Pointer로 사용
+* 새로운 노드가 추가되거나 삭제될 때, pre/next Pointer가 가리키는 위치를 변경해서 연결
+* Deque에서 이중 링크드리스트 사용
+
+
+
+![Doubly](./Img/Doubly.png)
 
 **Code**
 
 ```c++
-```
-
-
-
-**Code**
-
-```c++
-//--------------------------------------------------------------------------------------------
-
-#include <stdio.h>
-#include <malloc.h>
-
-typedef struct node {
-    struct node *pre;
-    int data;
-    struct node *next;
-}node;
-node *head;
-node *t;
-
-void createnodes(int n, char *start) {
-    t = (node *)malloc(sizeof(node));
-    t->data = 0;
-    head = t;
-    for (int i = 1; i <= n; i++)
-    {
-        t->next = (node *)malloc(sizeof(node));
-        t->next->pre = t;
-        t = t->next;
-        t->data = start[i - 1];
-    }
-    t->next = NULL;
-}
-
-void insertnode(char x, node *t) {
-    node *insert = (node *)malloc(sizeof(node));
-    insert->pre = t;
-    if (t->next == NULL)
-        insert->next = NULL;
-    else
-    {
-        insert->next = t->next;
-        t->next->pre = insert;
-    }
-    t->next = insert;
-    insert->data = x;
-}
-
-// t번째 node를 제거
-node *deletenode(node *t){
-    node *d;
-    d = t;
-    if (t->next != NULL)
-    {
-        t->pre->next = t->next;
-        t->next->pre = t->pre;
-    }
-    else
-        t->pre->next = NULL;
-    t = t->pre;
-    free(d);
-    return t;
-}
-
-// 더미 노드를 이용한 이중 링크드 리스트
-//--------------------------------------------------------------------------------------------
-#include <iostream>
-#include <cstdio>
- 
-using namespace std;
- 
-class NODE {
-    friend class LIST;
-
-private:
-    int data;
-    NODE *left;
-    NODE *right;
-};
- 
-class LIST {
-private:
-    int sz;
-    NODE *head;
-    NODE *tail;
-
+template <typename T>
+class linked_list
+{
+    struct node{
+        int data;
+        node* next;
+        node* pre;
+    };
+    int _size;
+    node* head;
+    node* tail;
 public:
-    LIST()
+    linked_list()
     {
-        //cout << "\n\n생성자 호출\n\n" << endl;
-        sz = 0;
-        NODE *dummyHead = new NODE;
-        NODE *dummyTail = new NODE;
-
-        dummyHead->left = dummyHead->right = NULL;
-        dummyTail->left = dummyTail->right = NULL;
-
-        head = dummyHead;
-        tail = dummyTail;
+        head = (node*)malloc(sizeof(node));
+        tail = (node*)malloc(sizeof(node));
+        head->pre = tail->next = NULL;
+        head->next = tail;
+        tail->pre = head;
+        _size = 0;
     }
-
-    ~LIST()
+    ~linked_list()
     {
-        init();
+        clear();
         delete head;
         delete tail;
     }
-
-    void init()
-    {
-        NODE *pos = head;
-        while (pos->right != NULL)
-        {
-            NODE *delNode = pos;
-            pos = pos->right;
-
-            delete delNode;
-        }
-        delete tail; // 마지막 tail이 삭제되지 않았다.
-
-        // 더미노드 새로 생성(생성자와 동일)
-        NODE *dummyHead = new NODE;
-        NODE *dummyTail = new NODE;
-
-        dummyHead->left = dummyHead->right = NULL;
-        dummyTail->left = dummyTail->right = NULL;
-
-        head = dummyHead;
-        tail = dummyTail;
-        sz = 0;
+    void addFront(T value){
+        node* newnode = (node*)malloc(sizeof(node));
+        newnode->data = value;
+        newnode->next = head->next;
+        newnode->pre = head;
+        (head->next)->pre = newnode;
+        head->next = newnode;
+        _size++;
     }
-    void insert(int val)
-    {
-        // 리스트가 형성되어 있지 않았을 때
-        if (head->right == NULL)
-        {
-            NODE *newNode = new NODE;
-            newNode->data = val;
-
-            newNode->left = head;
-            head->right = newNode;
-
-            newNode->right = tail;
-            tail->left = newNode;
-        }
-
-        else
-        {
-            NODE *newNode = new NODE;
-            newNode->data = val;
-
-            newNode->left = tail->left;
-            tail->left->right = newNode;
-
-            newNode->right = tail;
-            tail->left = newNode;
-        }
-        sz++;
+    void addBack(T value){
+        node* newnode = (node*)malloc(sizeof(node));
+        newnode->data = value;
+        newnode->next = tail;
+        newnode->pre = tail->pre;
+        (tail->pre)->next = newnode;
+        tail->pre = newnode;
+        _size++;
     }
-    void del(int val)
-    {
-        NODE *pos = head;
-        bool isFind = false;
-        while (pos->right != NULL)
+    int search_first_index(T value) {
+        int idx = 0;
+        node *tmp = head;
+        while (tmp->next != tail)
         {
-            if (pos->data == val)
-            {
-                pos->left->right = pos->right;
-                pos->right->left = pos->left;
-                delete pos;
-                isFind = true;
-                break;
+            tmp = tmp->next;
+            idx++;
+            if (tmp->data == value) return idx;
+        }
+        return -1;
+    }
+    int search_last_index(T value){
+        int idx = _size;
+        node* tmp = tail;
+        while (tmp->pre != head) {
+            tmp = tmp->pre;
+            if (tmp->data == value) return idx;
+            idx--;
+        }
+        return -1;
+    }
+    void remove_last_node(T value){
+        node* tmp = tail;
+        while(tmp->pre != head){
+            tmp = tmp->pre;
+            if (tmp->data == value){
+                (tmp->pre)->next = tmp->next;
+                (tmp->next)->pre = tmp->pre;
+                free(tmp);
+                _size--;
+                return;
             }
-            pos = pos->right;
         }
-
-        if (isFind)
-            sz--;
-        else
-            cout << "삭제할 데이터가 없습니다." << endl;
+        cout << "There's no component " << value << endl;
+        return;
     }
-
-    void all()
-    {
-        NODE *pos = head;
-        while (pos != NULL)
+    void remove_first_node(T value){
+        node *tmp = head;
+        while (tmp->next != tail)
         {
-            // 더미노드는 출력하지 않는다.
-            if (!(pos == head || pos == tail))
-                cout << pos->data << " ";
-
-            pos = pos->right;
+            tmp = tmp->next;
+            if (tmp->data == value) {
+                (tmp->pre)->next = tmp->next;
+                (tmp->next)->pre = tmp->pre;
+                free(tmp);
+                _size--;
+                return;
+            }
+        }
+        cout << "There's no component " << value << endl;
+        return;
+    }
+    void printall(){
+        node *tmp = head->next;
+        if (empty()) return;
+        while (tmp != tail) {
+            cout << tmp->data << " ";
+            tmp = tmp->next;
         }
         cout << endl;
     }
 
-    int size()
+    bool empty() { return !_size; }
+    int size() { return _size; }
+    void clear()
     {
-        return sz;
+        node* tmp = head->next;
+        while (!empty())
+        {
+            node* delnode = tmp;
+            tmp = delnode->next;
+            free(delnode);
+            _size--;
+        }
+        head->next = tail;
     }
 };
-int main()
-{
-    LIST list;
-    while (1)
-    {
-        int num;
-        cout << "1 :: 초기화\n2 :: 추가\n3 :: 삭제\n4 :: 전체출력\n5 :: 총 개수\n6 :: 종료\n입력 :: ";
-        cin >> num;
-
-        if (num == 1)
-            list.init();
-
-        else if (num == 2)
-        {
-            int val;
-            cout << "값 :: ";
-            cin >> val;
-            list.insert(val);
-        }
-
-        else if (num == 3)
-        {
-            int val;
-            cout << "값 :: ";
-            cin >> val;
-            list.del(val);
-        }
-
-        else if (num == 4)
-            list.all();
-
-        else if (num == 5)
-            cout << list.size() << endl;
-
-        else if (num == 6)
-            break;
-
-        cout << endl;
-    }
-
-    return 0;
-}
-
 ```
 
