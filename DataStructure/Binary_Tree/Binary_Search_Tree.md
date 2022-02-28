@@ -4,285 +4,172 @@ sort: 1
 
 # Binary Search Tree
 
-
-
-
+* 아래와 같은 특징을 갖는 Binary Tree
+  * 왼쪽 자식 노드의 값은 부모 노드보다 작음
+  * 오른쪽 자식 노드의 값은 부모 노드보다 큼
+  * 중복된 값을 허용하지 않음
+  * Leaf Node를 제외한 모든 노드가 Binary Tree 형태로 구성됨 
+* 기존의 Binary Tree에서 특정 값을 탐색하기 위해서는 최대 $$O(N)$$ 의 시간복잡도가 소요되기 때지만, BST에서는 평균 $$O(logN)$$ 으로 계산할 수 있음
+  * Skewed 형태로 BST가 만들어지는 경우 탐색에 많은 시간이 소요되기 때문에 AVL이나 Red-Black처럼 Balanced Tree로 구현 필요
+* 탐색을 root부터 해야되는데, 사용할 때마다 변수에 root를 추가하기 번거러움
+  * public method를 호출할 때 private method에 root를 적용하여 실행
 
 **Code**
 
 ```c++
-#include <malloc.h>
-#include <stdio.h>
-
-typedef struct NodeStruct
+template <typename T>
+class BST
 {
-	int value;
-	struct NodeStruct* leftChild;
-	struct NodeStruct* rightChild;
-}Node;
-
-Node* root = NULL;
-
-Node* BST_insert(Node* root, int value)
-{
-	if (root == NULL)
-	{
-		root = (Node*)malloc(sizeof(Node));
-		root->leftChild = root->rightChild = NULL;
-		root->value = value;
-		return root;
-	}
-	else
-	{
-		if (root->value > value)
-			root->leftChild = BST_insert(root->leftChild, value);
-		else
-			root->rightChild = BST_insert(root->rightChild, value);
-	}
-	return root;
-}
-Node* findMinNode(Node* root)
-{
-	Node* tmp = root;
-	while (tmp->leftChild != NULL)
-		tmp = tmp->leftChild;
-	return tmp;
-}
-Node* BST_delete(Node* root, int value)
-{
-	Node* tNode = NULL;
-	if (root == NULL)
-		return NULL;
-
-	if (root->value > value)
-		root->leftChild = BST_delete(root->leftChild, value);
-	else if (root->value < value)
-		root->rightChild = BST_delete(root->rightChild, value);
-	else
-	{
-		// ¿⁄Ωƒ ≥ÎµÂ∞° µ— ¥Ÿ ¿÷¿ª ∞ÊøÏ
-		if (root->rightChild != NULL && root->leftChild != NULL)
-		{
-			tNode = findMinNode(root->rightChild);
-			root->value = tNode->value;
-			root->rightChild = BST_delete(root->rightChild, tNode->value);
-		}
-		else
-		{
-			tNode = (root->leftChild == NULL) ? root->rightChild : root->leftChild;
-			free(root);
-			return tNode;
-		}
-	}
-
-	return root;
-}
-Node* BST_search(Node* root, int value)
-{
-	if (root == NULL)
-		return NULL;
-
-	if (root->value == value)
-		return root;
-	else if (root->value > value)
-		return BST_search(root->leftChild, value);
-	else
-		return BST_search(root->rightChild, value);
-}
-
-
-void BST_print(Node* root)
-{
-	if (root == NULL)
-		return;
-	printf("%d ", root->value);
-	BST_print(root->leftChild);
-	BST_print(root->rightChild);
-}
-
-int main() {
-	root = BST_insert(root, 5);
-	root = BST_insert(root, 3);
-	root = BST_insert(root, 7);
-	root = BST_insert(root, 1);
-	root = BST_insert(root, 9);
-	root = BST_insert(root, 6);
-	root = BST_delete(root, 7);
-	BST_print(root);
-}
-
-
-
-
-
-```
-
-
-
-
-
-```c++
-#include <malloc.h>
-#include <stdio.h>
-
-class treeNode
-{
-	friend class tree;
-private:
-	int value;
-	treeNode* left, *right;
-	treeNode(int val) : value(val), left(NULL), right(NULL) {}   //ª˝º∫¿⁄
-};
-
-class tree
-{
-private:
-	void recursiveInsert(treeNode*&, int);
-	void recursiveRemove(treeNode*&, int);
-	void preorderRecursivePrint(treeNode*);
-	void postorderRecursivePrint(treeNode*);
-	void inorderRecursivePrint(treeNode*);
+    struct treeNode{
+        int value;
+        treeNode *left, *right;
+        treeNode(T val) : value(val), left(NULL), right(NULL) {}
+    };
 public:
-	treeNode* root;
-	tree() : root(NULL) { }   //ª˝º∫¿⁄
-	void insert(int);
-	void remove(int);
-	void preorderPrint();
-	void postorderPrint();
-	void inorderPrint();
+    treeNode *root;
+    BST() : root(NULL) {}
+    bool insert(T);
+    bool find(T);
+    void remove(T);
+    void preorder();
+    void postorder();
+    void inorder();
+private:
+    bool private_insert(treeNode *&, T);
+    bool private_find(treeNode *&, T);
+    bool private_remove(treeNode *&, T);
+    void private_Preorder(treeNode *);
+    void private_Inorder(treeNode *);
+    void private_Postorder(treeNode *);
 };
 
-
-void tree::recursiveInsert(treeNode*& node, int val)
+template <typename T>
+bool BST<T>::private_insert(treeNode *&node, T val)
 {
-	if (node == NULL)
-		node = new treeNode(val);   //≈Ωªˆ«œ∞Ì ¿÷¥¬ ≥ÎµÂ∞° NULL¿Ã∏È ªı∑Œ ∏∏µÁ¥Ÿ(ª¿‘)
-
-	else if (val > node->value)
-		recursiveInsert(node->right, val);   //ª¿‘«“ ∞™¿Ã ≥ÎµÂ¿« ∞™∫∏¥Ÿ ≈©∏È ø¿∏•¬  Child∏¶ ≈Ωªˆ
-
-	else if (val < node->value)
-		recursiveInsert(node->left, val);   //ª¿‘«“ ∞™¿Ã ≥ÎµÂ¿« ∞™∫∏¥Ÿ ¿€¿∏∏È øﬁ¬  Child∏¶ ≈Ωªˆ
+    if (node == NULL) {
+        node = new treeNode(val);
+        return true;
+    }
+    else if (val > node->value) return private_insert(node->right, val);
+    else if (val < node->value) return private_insert(node->left, val);
+    else {
+        cout<<  val<<" : Already inserted\n";
+        return false;
+    }   
 }
 
-void tree::recursiveRemove(treeNode*& node, int val)
+template <typename T>
+bool BST<T>::private_find(treeNode *&node, T val)
 {
-	treeNode* removal = new treeNode(0);
-
-	if (node == NULL)
-		return;      //√£¡ˆ∏¯«ﬂ¿ª ∞ÊøÏ ∏Æ≈œ«ÿº≠ «‘ºˆ¡æ∑·
-	else if (val > node->value)
-		recursiveRemove(node->right, val);   //ªË¡¶«“ ∞™¿Ã ≥ÎµÂ¿« ∞™∫∏¥Ÿ ≈©∏È ø¿∏•¬  Child∏¶ ≈Ωªˆ
-	else if (val < node->value)
-		recursiveRemove(node->left, val);   //ªË¡¶«“ ∞™¿Ã ≥ÎµÂ¿« ∞™∫∏¥Ÿ ¿€¿∏∏È øﬁ¬  Child∏¶ ≈Ωªˆ
-
-	else //ªË¡¶«“ ≥ÎµÂ∏¶ √£æ“¿Ω(¿Ã¡¶ 3∞°¡ˆ ∞ÊøÏ∑Œ ≥™¥≠ºˆ ¿÷¥Ÿ)
-	{
-		if (node->left == NULL && node->right == NULL) //∞ÊøÏ 1: ≥ÎµÂ¿« Child∞° æ¯¿ª∂ß
-		{
-			delete node;
-			node = NULL;
-		}
-
-		else if (node->left == NULL)   //∞ÊøÏ 2-1: ≥ÎµÂ¿« Child∞° ø¿∏•¬  «œ≥™¿œ ∂ß
-		{
-			removal = node;
-			node = node->right;
-			delete removal;
-		}
-		else if (node->right == NULL)   //∞ÊøÏ 2-2: ≥ÎµÂ¿« Child∞° øﬁ¬  «œ≥™¿œ ∂ß
-		{
-			removal = node;
-			node = node->left;
-			delete removal;
-		}
-		else                     //∞ÊøÏ 3: ≥ÎµÂ¿« Child∞° µŒ∞≥¿œ ∂ß
-		{
-			removal = node->right;
-			while (removal->left != NULL)   //≥ÎµÂ¿« ø¿∏•¬  Subtreeø°º≠ √÷º“∞™¿ª ∞°¡¯ ≥ÎµÂ∏¶ √£¥¬¥Ÿ.
-				removal = removal->left;
-
-			int minVal = removal->value;   //√÷º“∞™≥ÎµÂ¿« ∞™¿ª πÈæ˜
-			recursiveRemove(root, minVal);   //√÷º“∞™≥ÎµÂ∏¶ ªË¡¶
-			node->value = minVal;  //πÈæ˜«— √÷º“∞™¿ª "Ω«¡¶ ªË¡¶µ» ∞™¿ª ∞°¡¯ ≥ÎµÂ"¿« ∞™ø° µ§æÓæ∏
-		}
-	}
-
+    if (node == NULL) return false;
+    else if (val > node->value) return private_find(node->right, val);
+    else if (val < node->value) return private_find(node->left, val);
+    else return true;
 }
 
-void tree::preorderRecursivePrint(treeNode* node)
+template <typename T>
+bool BST<T>::private_remove(treeNode *&node, T val)
 {
-	if (node != NULL)
-	{
-		printf("%d\n", node->value);
-		preorderRecursivePrint(node->left);
-		preorderRecursivePrint(node->right);
-	}
+    if (node == NULL) return false; // not found in subtree
+    else if (val > node->value) return private_remove(node->right, val); 
+    else if (val < node->value) return private_remove(node->left, val); 
+    else { // find value
+        if (node->left == NULL && node->right == NULL) { // leaf
+            delete node;
+            node = NULL;
+        }
+        else if (node->left == NULL) { // only right subtree
+            treeNode* removal = node;
+            node = node->right;
+            delete removal;
+        }
+        else if (node->right == NULL)  { // only left subtree
+            treeNode* removal = node;
+            node = node->left;
+            delete removal;
+        }
+        else  {
+            treeNode* removal = node->right;
+            while (removal->left != NULL)  removal = removal->left;
+            int minVal = removal->value;
+            private_remove(root, minVal);  
+            node->value = minVal;
+        }
+        return true;
+    }
 }
 
-void tree::inorderRecursivePrint(treeNode* node)
+template <typename T>
+void BST<T>::private_Preorder(treeNode *node)
 {
-	if (node != NULL)
-	{
-		inorderRecursivePrint(node->left); //Left Child∞° æ¯¿ª∂ß±Ó¡ˆ √÷¥Î«— øﬁ¬ ¿∏∑Œ ≈Ωªˆ«—¥Ÿ.
-		printf("%d\n", node->value);     //√‚∑¬«—¥Ÿ.   
-		inorderRecursivePrint(node->right);//±◊ ¥Ÿ¿Ω Right Child∏¶ ≈Ωªˆ«—¥Ÿ.
-	}
+    if (node != NULL)
+    {
+        cout << node->value << " ";
+        private_Preorder(node->left);
+        private_Preorder(node->right);
+    }
 }
 
-void tree::postorderRecursivePrint(treeNode* node)
+template <typename T>
+void BST<T>::private_Inorder(treeNode *node)
 {
-	if (node != NULL)
-	{
-		postorderRecursivePrint(node->left); //Left Child∞° æ¯¿ª∂ß±Ó¡ˆ √÷¥Î«— øﬁ¬ ¿∏∑Œ ≈Ωªˆ«—¥Ÿ.
-		postorderRecursivePrint(node->right);//±◊ ¥Ÿ¿Ω Right Child∏¶ ≈Ωªˆ«—¥Ÿ.
-		printf("%d\n", node->value);       //√‚∑¬«—¥Ÿ.   
-	}
+    if (node != NULL)
+    {
+        private_Inorder(node->left);
+        cout << node->value << " ";
+        private_Inorder(node->right);       
+    }
 }
 
-void tree::insert(int val)
+template <typename T>
+void BST<T>::private_Postorder(treeNode *node)
 {
-	recursiveInsert(root, val);
+    if (node != NULL)
+    {
+        private_Postorder(node->left);
+        private_Postorder(node->right);
+        cout << node->value << " ";
+    }
 }
-
-void tree::remove(int val)
+template <typename T>
+bool BST<T>::insert(T val)
 {
-	recursiveRemove(root, val);
+    return private_insert(root, val);
 }
 
-void tree::preorderPrint()
+template <typename T>
+bool BST<T>::find(T val)
 {
-	printf("PREORDER\n");
-	preorderRecursivePrint(root);
+    return private_find(root, val);
 }
 
-void tree::inorderPrint()
+template <typename T>
+void BST<T>::remove(T val) {
+    if (!private_remove(root, val)){
+        cout << "Not Found value : " << val << endl;
+    }
+}
+
+template <typename T>
+void BST<T>::preorder()
 {
-	printf("INORDER");
-	inorderRecursivePrint(root);
+    printf("PREORDER\n");
+    private_Preorder(root);
+    cout <<"\n";
 }
-
-void tree::postorderPrint()
+template <typename T>
+void BST<T>::inorder()
 {
-	printf("POST ORDER\n");
-	postorderRecursivePrint(root);
+    printf("INORDER\n");
+    private_Inorder(root);
+    cout << "\n";
 }
-
-tree aa[101];
-
-int main() {
-	aa[0].insert(4);
-	aa[0].insert(2);
-	aa[0].insert(3);
-	aa[0].insert(1);
-	aa[1].insert(5);
-	aa[1].insert(13);
-	aa[1].insert(6);
-	aa[1].insert(12);
-	aa[1].insert(7);
-	aa[0].preorderPrint();
-	aa[1].preorderPrint();
+template <typename T>
+void BST<T>::postorder()
+{
+    printf("POST ORDER\n");
+    private_Postorder(root);
+    cout << "\n";
 }
-
 ```
 
