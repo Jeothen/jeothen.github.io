@@ -140,7 +140,7 @@ sort: 6
     * i는 str2의 시작과 비교되는 str1의 index이고, j는 str1의 마지막과 비교되는 str2의 index
     * `nanana` 라는 문자열로 good suffix array를 만드는 경우
   
-    ---
+    <br/>
   
     * i = M - 1 = 5, j = 0에서시작
       * gs[i+j], 즉 문자 불일치가 발생한 위치에 start index(i) 대입
