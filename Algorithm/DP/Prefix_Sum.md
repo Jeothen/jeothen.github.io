@@ -12,10 +12,7 @@ sort: 1
 
   * (start_x,start_y)에서 (end_x,end_y) 구간의 합이 필요한 경우
 
-  * ```c++
-    dp[end_x,end_y] + dp[start_x,start_y]
-      - (dp[starx,end_y] + dp[end_x,start_y])
-    ```
+  `dp[end_x,end_y] + dp[start_x,start_y] - (dp[starx,end_y] + dp[end_x,start_y]`
 
 <br/>
 

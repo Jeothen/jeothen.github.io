@@ -1,8 +1,8 @@
 ---
-sort: 1
+sort: 2
 ---
 
-# Binary Tree
+# Binary Search
 
 * 정렬된 array에서 특정 값의 위치를 알아내는 방법
 * low 값과 high값을 이용하여 mid 값을 계산하며, 값의 범위를 줄여나감
