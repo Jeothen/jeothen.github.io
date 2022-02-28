@@ -80,7 +80,17 @@ void insert(Trie* root, char key[], int inde) {
 	node->index = inde;
 	node->count += 1;
 }
-
-
 ```
+
+
+
+
+
+## Radix Tree
+
+* Trie 구조 중 자식이 하나만 있는 경우, 
+
+
+
+
 
