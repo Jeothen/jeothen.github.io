@@ -6,14 +6,15 @@ sort: 1
 
 {% include list.liquid all=true %}
 
-<br/>
+---
 
-* 자식 노드의 수가 최대 2개까지로 구성된 트리
-  * left chid와 right child로 구성
-  * 자식수가 최대 3개인 경우, 삼항 트리(Ternary Tree)라고 함
+자식 노드의 수가 최대 2개까지로 구성된 트리
+
+* left chid와 right child로 구성
+* 자식수가 최대 3개인 경우, 삼항 트리(Ternary Tree)라고 함
 
 
-![Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Binary_Tree.png)
+![Binary_Tree](./Img/Binary_Tree.png)
 
 * 순회 방법 (Travelsal) : 모든 노드를 탐색하는 방법
   * 전위 순회(Preorder) : 부모 노드 -> 왼쪽 자식 노드 -> 오른쪽 자식 노드 방문
@@ -34,7 +35,7 @@ sort: 1
 * Heap이 완전 이진 트리 형태로 구성됨
 * 노드의 갯수가 N개일 때,  $$N <= $$ 2<sup>level</sup> -1 을 성립
 
-![Complete_Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Complete_Binary_Tree.png)
+![Complete_Binary_Tree](./Img/Complete_Binary_Tree.png)
 
 **정 이진 트리 (Full Binary Tree)**
 
@@ -42,7 +43,7 @@ sort: 1
 * 노드의 갯수 N은 $$ 2*Depth + 1 <= N$$ 과  $$N <= $$ 2<sup>level</sup> -1 을 성립
   * Root 노드 1개와 Level이 추가될 때마다 최소 2개의 노드가 추가됨
 
-![Full_Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Full_Binary_Tree.png)
+![Full_Binary_Tree](./Img/Full_Binary_Tree.png)
 
 **포화 이진 트리 (Perfect Binary Tree)**
 
@@ -50,14 +51,14 @@ sort: 1
 
 * 노드의 갯수  N = 2<sup>level</sup> -1 이 성립
 
-![Perfect_Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Perfect_Binary_Tree.png)
+![Perfect_Binary_Tree](./Img/Perfect_Binary_Tree.png)
 
 **편향 이진 트리 (Skewed Binary Tree)**
 
 * Root 노드에서 한 방향으로만 노드가 채워진 Tree
   * Level마다 하나의 노드만 존재하기 때문에 탐색에 매우 부적합
 
-![Skewed_Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Skewed_Binary_Tree.png)
+![Skewed_Binary_Tree](./Img/Skewed_Binary_Tree.png)
 
 **균형 이진 트리 (Balanced Binary Tree)**
 
@@ -65,5 +66,5 @@ sort: 1
 * SubTree가 편향으로 구성되었을 때, 탐색시 발생하는 비정상적인 시간을 줄일 수 있음
 * AVL, RedBlack Tree 등이 균형 이진 트리로 구현됨
 
-![Balanced_Binary_Tree](/Users/thjeong/Desktop/Blog/DataStructure/Binary_Tree/Img/Balanced_Binary_Tree.png)
+![Balanced_Binary_Tree](./Img/Balanced_Binary_Tree.png)
 
