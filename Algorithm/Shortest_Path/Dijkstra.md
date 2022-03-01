@@ -10,6 +10,10 @@ sort: 2
   * 인접 노드의 최단거리 업데이트 시 O(ElogV)의 시간 복잡도가 필요 ( edge : E)
 * Dijkstra 알고리즘은 음의 가중치에는 적용할 수 없다. 
 
+![Dijkstra_1](./img/Dijkstra_1.png)![Dijkstra_2](./img/Dijkstra_2.png)
+
+![Dijkstra_3](./img/Dijkstra_3.png)
+
 
 
 **Code**
