@@ -5,13 +5,43 @@ sort: 1
 # Binary Search Tree
 
 * 아래와 같은 특징을 갖는 Binary Tree
+
   * 왼쪽 자식 노드의 값은 부모 노드보다 작음
   * 오른쪽 자식 노드의 값은 부모 노드보다 큼
   * 중복된 값을 허용하지 않음
   * Leaf Node를 제외한 모든 노드가 Binary Tree 형태로 구성됨 
+
+* Insert
+
+  * 현재의 노드보다 크면 왼쪽, 작으면 오른쪽으로 이동
+  * Leaf 노드에 도달하면 값 추가
+
+  ![BST_Insert](./Img/BST_Insert.png)
+
+* Delete
+
+  * 삭제할 노드가 leaf면 단순 삭제
+
+  * 삭제할 노드에 left subtree만 있는 경우, 삭제할 노드를 왼쪽 자식 노드로 대체
+
+  * 삭제할 노드에 right subtree만 있는 경우, 삭제할 노드를 오른쪽 자식 노드로 대체
+
+  * 삭제할 노드에 left/right subtree가 있는 경우, 삭제할 노드 오른쪽 자식 노드의 가장 왼쪽 자손 노드로 이동
+
+    * 오른쪽 자식 노드에서 재귀를 통해 왼쪽으로 이동하면 삭제한 노드 다음 순으로 큰 노드를 찾을 수 있음
+
+    * 오른쪽 자식 노드의 왼쪽 자손 노드의 값을 저장한 후 삭제하고, 오른쪽 자식 노드의 값을 저장한 값으로 대체
+
+  ![BST_Delete_1](./Img/BST_Delete_1.png)
+
+  ![BST_Delete_2](./Img/BST_Delete_2.png)
+
 * 기존의 Binary Tree에서 특정 값을 탐색하기 위해서는 최대 $$O(N)$$ 의 시간복잡도가 소요되기 때지만, BST에서는 평균 $$O(logN)$$ 으로 계산할 수 있음
+
   * Skewed 형태로 BST가 만들어지는 경우 탐색에 많은 시간이 소요되기 때문에 AVL이나 Red-Black처럼 Balanced Tree로 구현 필요
+
 * 탐색을 root부터 해야되는데, 사용할 때마다 변수에 root를 추가하기 번거러움
+
   * public method를 호출할 때 private method에 root를 적용하여 실행
 
 **Code**
