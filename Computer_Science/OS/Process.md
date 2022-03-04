@@ -65,6 +65,10 @@ sort: 5
 
 #### Management
 
+* Context Swithching
+  * Running 중인 Process가 완료되기 전 Interrupt로 인해 다른 Process를 실행하는 작업
+  * I/O Request, Child Process Fork,  Scheduling Time 만료, Interrupt를 기다리는 경우 발생
+
 * Ready vs Block State
   * Ready는 프로세스에 필요한 자원을 할당 받은 상태에서 CPU 할당을 기다리는 상태
   * Block은 프로세스에 필요한 자원을 할당받지 않은 상태
