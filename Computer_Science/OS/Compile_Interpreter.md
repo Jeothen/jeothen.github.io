@@ -115,11 +115,11 @@ sort: 4
 * 인터프리터 언어로 작성된 코드를 한줄씩 해석하며 명령어를 실행
 * 빌드 과정이 없고 런타임에서 코드를 한줄씩 번역하여 메모리에 연속적으로 올리기 때문에, 컴파일 언어에 비해 런타임 속도가 느림
 * Python의 경우, CPython이나 JPython 등 여러 가지 구현체라는 Interpreter가 있고, 이에 따라 Compiler / Bytecode / VM도 달라짐
-  * 일반적으로 CPython Interpreter(C언어로 작성된 컴파일러로 ByteCode를 생성하고, CPython VM에서 기계어로 변환)를 사용
-  * Pypy는 CPython이 아닌, RPython이라는 Bootstrapping Compiler(Host 언어(컴파일러)를 Source와 동일한 언어를 사용, Python으로 Python을 컴파일)를 사용하며 성능이 CPython보다 좋음
-    * RPython(Restricted Python) : 효율적인 정적 컴파일을 사용하기 위해 기능을 제한
-    * Virtual Machine에서  JIT(Just In Time) 컴파일러를 이용하여 성능 향상에 도움을 줌
-    * JIT Compiler : 동적번역(Dynamic Translation)이라고도 하며, 일반적인 Interpreter와 마찬가지로 코드를 한줄씩 기계어로 변환하지만, JIT는 프로그램 실행 흐름을 캐싱하여, 최적화 된 기계어 코드를 생성할 수 있게 함
+  - 일반적으로 CPython Interpreter(C언어로 작성된 컴파일러로 ByteCode를 생성하고, CPython VM에서 기계어로 변환)를 사용
+  - Pypy는 CPython이 아닌, RPython이라는 Bootstrapping Compiler(Host 언어(컴파일러)를 Source와 동일한 언어로 사용, Python으로 Python을 컴파일)를 사용하며 성능이 CPython보다 좋음
+    - RPython(Restricted Python) : 효율적인 정적 컴파일을 사용하기 위해 기능을 제한
+    - Virtual Machine에서 JIT(Just In Time) 컴파일러를 이용하여 성능 향상에 도움을 줌
+    - JIT Compiler : 동적번역(Dynamic Translation)이라고도 하며, 일반적인 Interpreter와 마찬가지로 코드를 한줄씩 기계어로 변환하지만, JIT는 프로그램 실행 흐름을 캐싱하여, 최적화 된 기계어 코드를 생성할 수 있게 함
 * Machine Language로 변환된 코드는 CPU Resource를 적절하게 사용
 
 ![Interpreter](./Img/Interpreter.png)
@@ -134,4 +134,3 @@ sort: 4
 
 * 프로그램이 CPU(ISA가 호환되는 경우)에 한정되지 않고 작동할 수 있도록 제공되는 공간으로, ByteCode를 기계어로 변환
 * 프로그램을 정상적으로 사용하기 위해서는 호환되는 Runtime Environment(프로세스가 실행되는 동안 제공되는 가상머신 상태)가 필요
-
