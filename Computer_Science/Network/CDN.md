@@ -14,7 +14,7 @@ sort: 14
 
 **작동원리**
 
-* 아래 그림은 Alibaba의 CDN Architecture인데, CDN에 대한 설명이 잘 되어 있다고 생각함 (Image 아래 Ref 기입)
+* 아래 그림은 Alibaba의 CDN Architecture인데, CDN에 대한 설명이 잘 되어 있다고 생각함
 * 먼저 사용자는 CDN의 Cache Server를 사용하기 전, DNS를 통해 어떤 Cache Server를 사용할 지 확인해야 됨
 * DNS Resolver로 접속하려는 도메인의 CName(Canonical Name, 도메인을 다른 도메인으로 맵핑)을 얻어 Low Latency의 Cache Server에 대한 IP를 획득
 * Client는 수신된 DNS로부터 얻은 Cache Server의 IP 주소에 엑세스 요청을 하고 데이터를 전송 받음
