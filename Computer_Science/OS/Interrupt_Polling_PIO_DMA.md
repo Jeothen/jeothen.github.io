@@ -2,7 +2,7 @@
 sort: 7
 ---
 
-# Polling & Interrupt & DMA & PIO
+# Polling & Interrupt & PIO & DMA
 
 ### Poilling
 
@@ -63,15 +63,25 @@ sort: 7
 
 
 
-### DMA
+### PIO & DMA
 
-* DMA(Direct Memory Access, 직접 메모리 접근)는 
+**PIO**(Program Input/Output, 프로그램 입출력) 
 
+* Device와 CPU 사이에서 데이터를 주고 받는 방식
+* Device에 PIO Mode를 선택할 수 있는데, 각 모드마다 전송 속도가 다름
+  * 특정 Device의 속도를 높여야 되는 경우, 속도가 높은 Mode로 변경 필요
+* Device Data는 Device Controler에 의해 Local Buffer로 데이터를 전송하는데, 데이터 전송량이 많아질 때 CPU 성능에 BottleNeck이 발생할 수도 있음
+  * 이를 해결하기 위해 DMA가 고안됨
 
+**DMA**(Direct Memory Access, 직접 메모리 접근) 
 
-### PIO
+* Device에서 CPU의 개입 없이 직접 메모리에 접근하여 Read/Write를 할 수 있는 기능
+* CPU의 I/O 작업을 줄여주기 때문에, CPU 효율 향상
 
-* PIO(Program Input/Output, 프로그램 입출력)은 
+* PC 내부의 Main BUS가 지원하는 기능임
+  * ISA 버스 표준에서는 16MB까지 지정할 수 있고, EISA나 MCA 표준에는 전체 메모리 범위 엑세스 가능
+* Multi-Core에서 칩 내부 데이터 전송에서 사용되고, 메모리 간 데이터 이동에도 사용됨
 
+![DMA_PIO](./Img/DMA_PIO.png)
 
-
+<div style="text-align: right"> Image ref : https://www.pcmag.com/encyclopedia/term/pio-mode </div>
