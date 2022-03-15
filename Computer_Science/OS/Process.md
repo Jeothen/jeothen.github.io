@@ -81,5 +81,5 @@ sort: 5
 * Sleep : Process Running 중 다른 Process를 Running 해야 될 때, 대기 상태로 전이
 * Exit : Process의 Running이 종료된 후 프로세스를 종료하는 과정
 
-![process_state](/Users/thjeong/Desktop/Blog/Computer_Science/OS/Img/process_state.png)
+![process_state](./Img/process_state.png)
 
