@@ -40,7 +40,9 @@ sort: 8
 
 * ....
 
+https://medium.com/must-know-computer-science/system-design-message-queues-245612428a22
 
+https://armful-log.tistory.com/61
 
 ### Shared Memory
 
@@ -48,15 +50,41 @@ sort: 8
 
 
 
+
+
 ### Semaphore
 
-
+* Process 간 데이터 전송을 담당하지 않고, 프로세스 간 동기화를 담당
+  * 여러개의 Process에서 동일한 메모리에 접근할 때, 데이터 ~
+  
+  
 
 
 
 ### Socket
 
+* IP주소/Port 를 특정하여 Process 간 통신
 
+* Client / Server에 존재하는 Process에서 IP/Port를 지정하고 아래와 같이 진행
+
+  *  Server
+
+    * Socket() : System Call로 Socket 생성
+    * Bind() : Socket을 IP와 Port에 Binding
+    * Listen() : System Call과 연결 수신 대기 상태
+    * Accept() : System Call과 연결이 된 상태. Client와 연결될 때까지 Blocking
+
+  * Client
+
+    * Socket() : System Call로 Socket 생성
+
+    * Connect() : System Call로 Socket을 Server 주소로 연결
+
+  * 이후 Read/Write를 통해 데이터 수송신
+
+![Socket](./Img/Socket.png)
+
+<div style="text-align: right"> Image ref : http://www.it.uom.gr/teaching/distrubutedSite/dsIdaLiu/labs/lab2_1/sockets.html</div>
 
 
 
