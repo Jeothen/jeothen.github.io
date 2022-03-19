@@ -74,13 +74,19 @@ sort: 8
 
 ### Shared Memory
 
-* 
+* 기존 Process에서는 Process에 할당된 메모리 영역만 참조할 수 있지만, 여러개의 Process에서 동일한 메모리 영역을 참조하기 위해 사용
+* 중복된 메모리의 과다한 복사를 방지할 수 있고, IPC로서도 사용할 수 있음
+* Process들이 Virtual Memory를 공유하는데, Kernel을 이용하여 Shared Memory 구축 
+  * 각 Process에서 Shared Memory에 직접 접근할 수 있음
+
+* 일반적으로 Process1에서 Mapping한 Shared Memory 주소와 Process2에서 Mapping한 Shared Memory 주소는 다른 위치에 저장됨
+  * 점선으로 표시된 공유 메모리에서는 Process의 값을 참조할 수 없음
+  * 공유 메모리 내에서는 Offset or 연속된 데이터 구조로 접근해야 됨
 
 
+![Shared_Memory](./Img/Shared_Memory.png)
 
-
-
-
+<div style="text-align: right"> Image ref : https://www.researchgate.net/figure/Example-heap-with-OS-memory-2-processes-and-2-shared-memory-segments-Dashed-arrows_fig5_315116304 </div>
 
 
 
