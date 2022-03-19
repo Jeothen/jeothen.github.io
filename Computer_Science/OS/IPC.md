@@ -126,3 +126,16 @@ sort: 8
 
 
 ### RPC (Remote Procedure Call)
+
+* 원격 프로시저 호출은 IDL(Interface Definition Language)을 이용하여 Client-Server 간 원격에 있는 함수를 호출해주는 IPC
+* MSA 도입 이후로 다양한 언어와 Framework를 사용하게 되었는데, RPC는 Polyglot한 환경에서 사용하기 적합
+* Stub : 함수 호출 과정에서 Parameter를 변환하는 작업
+  * 상이한 운영체제, 언어, Framework 간 표준화된 메시지를 전송 규약이 필요
+  * Marshalling : 데이터를 전송할 때 Packing하는 과정
+  * UnMarshalling : 데이터를 수신받을 때 Unpacking하는 과정
+
+* RPC Runtime을 이용하여 Client-Server 연결
+
+![RPC](./Img/RPC.png)
+
+<div style="text-align: right"> Image ref : https://www.guru99.com/remote-procedure-call-rpc.html </div>
