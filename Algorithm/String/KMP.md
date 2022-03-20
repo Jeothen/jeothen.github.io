@@ -125,20 +125,27 @@ vector<int> fail_function(string pat)
     return f;
 }
 
-void kmp(string str, string pat)
+
+vector<int> kmp(string txt, string pat)
 {
     vector<int> res;
-    vector<int> f =fail_function(pat);
-    int n = str.length();    
-    for (int i = 0, j = 0; i < n; i++)
-    {
-        while (j && str[i] != pat[j]) j = f[j - 1];
-        if (str[i] == pat[j]) res.push_back(++j);
-        if (j == n) j = f[j - 1];
+    vector<int> f = fail_function(pat);
+    int n = txt.length(), m = pat.length();
+    int i=0, j =0; // txt index, pat index
+    while (i < n){
+        if (txt[i] == pat[j]){
+            i++; j++;
+        }
+        if (j == m) {
+            res.push_back(i-j);  // start index
+            j = f[j-1];
+        }
+        else if (i < n && txt[i] != pat[j]){
+            if (j) j = f[j-1];
+            else i++;
+        }
     }
-    for (auto it : res) cout << it << " ";
-    cout << endl;
-
+    return res;
 }
 ```
 
