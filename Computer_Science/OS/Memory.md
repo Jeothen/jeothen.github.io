@@ -1,10 +1,32 @@
 ---
-sort: 13
+sort: 11
 ---
 
 # Memory
 
 
+
+
+
+### Virtual Memory
+
+
+
+
+
+### Fragmentation 
+
+* 메모리 단편화
+
+
+
+### Paging
+
+
+
+
+
+### Segmentation
 
 
 
