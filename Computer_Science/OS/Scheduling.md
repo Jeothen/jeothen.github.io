@@ -44,6 +44,8 @@ sort: 9
 
 ![SCH_PRIORITY](./Img/SCH_PRIORITY.png)
 
+<br/>
+
 ### Preemptive
 
 * CPU에서 Running 중인 Process를 강제로 중지시키고, 다른 Process에 CPU를 할당할 수 있는 스케줄링
@@ -52,11 +54,35 @@ sort: 9
 
 **RR (Round Robin) **
 
+* FCFS에 Time Sharing System을 적용
+* Process는 할당된 시간동안 CPU를 할당받고, Remaining Time이 존재하는 경우 Ready Queue 가장 뒤에 추가
+  * 할당된 시간이 적을 경우 Context Switching이 자주 발생
 
+![Round_Robin](./Img/Round_Robin.png)
+
+<div style="text-align: right">Image Ref : https://ko.wikipedia.org/wiki/라운드_로빈_스케줄링#/media/파일:Round_Robin_Schedule_Example.jpg </div>
 
 **Multilevel Queue**
 
+* 프로세스를 특정 그룹으로 분류할 수 있을 때, 그룹별로 Ready Queue가 존재
+* Group에 따라 우선순위가 있으므로, 우선순위 큐에 프로세스가 추가되면 Preemptive 기능으로 CPU 할당
+* 각 Ready Queue는 RR이나 FCFS 등 독자적인 스케줄링 기법을 사용
+* Ready Queue 간 Process를 이동하지 못함
+* 우선순위가 낮은 Ready Queue에서 Starvation 발생 가능성 있음
 
+![Multilevel_Queue](./Img/Multilevel_Queue.png)
+
+<div style="text-align: right">Image Ref : https://www.geeksforgeeks.org/difference-between-multilevel-queue-mlq-and-multi-level-feedback-queue-mlfq-cpu-scheduling-algorithms/ </div>
 
 **Multilevel Feedback Queue**
 
+* Multilevel Queue에 동적 Priority 적용하여 Ready Queue 간 Process가 이동할 수 있음
+* 우선순위가 높은 Queue에서 Quantum 동안 진행한 후, 다음 Queue로 이동
+  * 다음 Queue에서 설정된 Quantum 동안 진행한 후, 그 다음 Queue로 이동
+* 각 Ready Queue는 우선순위가 정해져있는 상태기 때문에 Round Robin으로 Process를 실행
+* 우선순위가 가장 낮은 Ready Queue는 FCFS로, Aging 기법이 적용되어 있음
+  * Aging 기법 : 무한 연기 / Starvation을 방지하기 위해 기다린 시간에 비례하여 우선순위를 높여줌
+
+![Multilevel_Feedback_Queue](./Img/Multilevel_Feedback_Queue.png)
+
+<div style="text-align: right">Image Ref : https://www.geeksforgeeks.org/difference-between-multilevel-queue-mlq-and-multi-level-feedback-queue-mlfq-cpu-scheduling-algorithms/ </div>
