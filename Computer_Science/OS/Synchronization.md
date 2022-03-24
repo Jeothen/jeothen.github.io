@@ -61,7 +61,7 @@ sort: 10
 * Synchronous - NonBlocking
   * A함수는 B함수에게 제어권을 주지 않기 때문에, A함수를 계속 실행함
     * B함수는 Request를 받을 때마다 즉시 Response함
-  * A함수가 Synchronous라서 지속적으로 B함수에게 Return을 전송할 수 있는 상황인지 확인
+  * A함수가 Synchronous라서 지속적으로 B함수에게 Return 값을 전송할 수 있는 상황인지 확인
   * B함수가 실행을 완료하고 A함수의 Request를 받게 되면 Return 값을 Response
 
 * ASynchronous - NonBlocking
@@ -69,7 +69,55 @@ sort: 10
   * A함수가 ASynchronous라서 B함수의 상태를 확인하지 않음
   * B함수 실행이 완료된 후 Callback을 통해 Response
 
+![SYNC_BLOCK](./Img/SYNC_BLOCK.png)
 
+---
+
+### DeadLock
+
+* 다중 프로그래밍 환경에서 발생하며, 2개의 Process가 서로 상대방의 작업이 끝나기를 기다리기 때문에 아무것도 진행되지 않는 상태
+* 대부분 운영체제에서 교착상태를 막는 것은 불가능하기 때문에, 교착 상태의 조건을 파악해서 대응
+
+![Deadlock](./Img/Deadlock.png)
+
+* 발생조건
+
+  * Mutual Exclusion : 자원에 대해 배타적인 통제권을 요구하여, Resource를 사용할  수 있는 Process는 하나만 존재. 다른 Process가 Resource를 사용중이라면 대기
+  * Hold & Wait : Process는 자원을 최소한 하나 이상 보유. 자원을 가진 상태에서 다른 자원을 기다림
+  * No Preemption : Process가 특정 Resource를 사용중일 때, 자원을 강제로 뺏을 수 없음
+  * Circular Wait : 각 Process는 다음 Process가 필요로 하는 자원을 순환 구조로 가지고 있음.
+
+* Prevention : 4가지 발생 조건 중 하나라도 충족하지 못하게 막는다면 Deadlock이 발생하지 않음
+
+  * 상호배제의 조건 제거 : 하나의 Resource를 여러 Process가 동시에 사용할 수 있게 함
+  * 점유 & 대기 조건 제거 : 하나의 프로세스가 사용하기 전, 필요로 하는 모든 자원을 미리 할당. 자원 과다 사용으로 효율성이 떨어짐
+  * 비선점 조건 제거 : 선점 가능한 프로토콜을 만들어서 우선순위에 따라 Resource를 강제로 뺏을 수 있게 함
+  * 환형 대기 조건 제거 : 자원에 순서를 매겨 Process가 순환 구조를 구성하지 않음
+
+  * 의도적인 변경으로 자원 사용의 효율성을 떨어뜨리고, 비용이 많이 들어 시스템 효율에 영향을 줄 수 있음
+
+* Avoidance : Deadlock이 발생할 수 있는 상황을 피하기 위해 Safe State에서만 자원 분배를 실행
+
+  * 자원할당 그래프 알고리즘 (단일 인스턴스)
+    * Resource를 할당하기 전에 예약 간선을 만듦
+    * Process1이 Resource1을 사용하고 있고, Process2가 Resource1 Waiting 상태가 전제 조건
+    * Process1과 Process2가 Resource2를 요청하게 되었을 때, 바로 할당을 하지 않고 예약 간선을 추가
+    * Process2에 할당을 하게 된다면 Cycle이 발생하기 때문에 Process1에 할당 대기 
+  * 은행원 알고리즘 (다중 인스턴스)
+    * Safe State와 Unsafe State를 나누고, 각 Process가 사용할 수 있는 최대 자원의 갯수(Allocation + Need)를 확인
+    * Available한 자원을 이용하여 Process를 순차적으로 사용할 수 있는 시뮬레이션 동작
+      * Safe State 영역 내에서 자원을 할당할 Process의 순서를 정함
+      * Process가 실행이 완료되면 Allocation된 자원을 회수하여 다음 Process에서는 기존의 Available한 자원 + Allocation 자원을 사용할 수 있음
+    * 다중 프로그래밍 환경에서는 Process의 수가 계속 변경되기 때문에, 지속적으로 Process의 변화를 Trace하기 어렵고, Unsafe State의 영역에서 Resource를 사용하지 못하기 때문에 Resource 활용성 감소
+    * 각 Process의 최대 자원의 갯수를 파악하고, 시뮬레이션으로 시스템 부하 증가
+
+* Detection & Recovery : Deadlock이 발생했는지 확인하고, 발생 시 복구
+
+  * Prevention / Avoidance를 적용하지 않았을 때 데드락이 발생할 수 있는데, 데드락을 탐지하고 복구하는 방법이 필요
+  * Prevention : 자원을 요청했을 때 할당되지 못하거나, 주기적으로 탐색을 하는 방법 등을 이용하여 탐지
+    * 단일 인스턴스인 경우 방향 그래프인 wait-for graph를 이용하여 Cycle 탐색
+    * 다중 인스턴스인 경우 은행원 알고리즘을 이용하여 Safe/Unsafe를 확인
+  * Recovery : Deadlock인 Process를 종료하거나 Preemption을 적용 
 
 ---
 
@@ -80,12 +128,6 @@ sort: 10
   * Mutual Exclusion : Process가 Critical Section에서 실행될 때, 다른 Process가 Critical Section에 진입할 수 없음
   * Progress : 임계구역에서 실행되는 Process가 없고 진입하려는 Process들이 있을 때, 제한된 시간 내 Critical Section에 진입할 Process를 선택해야 됨
   * Bounded Waiting : Process가 Critical Section에 진입하려고 요청을 하고 ACK 되기 전까지, 다른 Process들의 Critical Section 진입 횟수를 제한하여 Starvation을 방지
-
-### DeadLock
-
-
-
-
 
 ### Peterson's Solution
 
