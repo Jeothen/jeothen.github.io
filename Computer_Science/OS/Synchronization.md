@@ -86,7 +86,6 @@ sort: 10
   * Hold & Wait : Process는 자원을 최소한 하나 이상 보유. 자원을 가진 상태에서 다른 자원을 기다림
   * No Preemption : Process가 특정 Resource를 사용중일 때, 자원을 강제로 뺏을 수 없음
   * Circular Wait : 각 Process는 다음 Process가 필요로 하는 자원을 순환 구조로 가지고 있음.
-
 * Prevention : 4가지 발생 조건 중 하나라도 충족하지 못하게 막는다면 Deadlock이 발생하지 않음
 
   * 상호배제의 조건 제거 : 하나의 Resource를 여러 Process가 동시에 사용할 수 있게 함
@@ -95,7 +94,6 @@ sort: 10
   * 환형 대기 조건 제거 : 자원에 순서를 매겨 Process가 순환 구조를 구성하지 않음
 
   * 의도적인 변경으로 자원 사용의 효율성을 떨어뜨리고, 비용이 많이 들어 시스템 효율에 영향을 줄 수 있음
-
 * Avoidance : Deadlock이 발생할 수 있는 상황을 피하기 위해 Safe State에서만 자원 분배를 실행
 
   * 자원할당 그래프 알고리즘 (단일 인스턴스)
@@ -110,7 +108,6 @@ sort: 10
       * Process가 실행이 완료되면 Allocation된 자원을 회수하여 다음 Process에서는 기존의 Available한 자원 + Allocation 자원을 사용할 수 있음
     * 다중 프로그래밍 환경에서는 Process의 수가 계속 변경되기 때문에, 지속적으로 Process의 변화를 Trace하기 어렵고, Unsafe State의 영역에서 Resource를 사용하지 못하기 때문에 Resource 활용성 감소
     * 각 Process의 최대 자원의 갯수를 파악하고, 시뮬레이션으로 시스템 부하 증가
-
 * Detection & Recovery : Deadlock이 발생했는지 확인하고, 발생 시 복구
 
   * Prevention / Avoidance를 적용하지 않았을 때 데드락이 발생할 수 있는데, 데드락을 탐지하고 복구하는 방법이 필요
@@ -129,19 +126,84 @@ sort: 10
   * Progress : 임계구역에서 실행되는 Process가 없고 진입하려는 Process들이 있을 때, 제한된 시간 내 Critical Section에 진입할 Process를 선택해야 됨
   * Bounded Waiting : Process가 Critical Section에 진입하려고 요청을 하고 ACK 되기 전까지, 다른 Process들의 Critical Section 진입 횟수를 제한하여 Starvation을 방지
 
-### Peterson's Solution
+**Peterson's Solution**
 
+* 병렬 프로그래밍 중 두 개의 이상의 Process가 하나의 Resource를 사용할 때, 동기화를 해결하는 방법
+* flag, turn 2개의 변수를 사용하여 Critical Section 생성
 
+```c++
+P1
+flag[1] = true, turn = 1;
+while (flag[1] && turn == 1){
+  // critical section 
+  // running code
+}
+flag[2] = false;
 
-### Mutex Locks
+P2 
+flag[2] = true; turn =2;
+while (flag[2] && turn==2){
+  // running code
+}
+flag[2] = false; 
+```
 
+* Critical Section에 들어가기 전과 후를 flag로 구분하고, turn을 통해 두개의 Process가 같이 사용되지 못하게 함
 
+**Mutex**
 
-### Semaphore 
+* Mutual Exclusion의 약자로 두 개 이상의 Process에서 동일한 Resource의 Critical Section에 동시에 접근할 수 없게 막아주는 객체
 
+* lock / Unlock 두가지 기능을 이용하여, 다른 Process의 접근 권한을 제어
+  * lock : Critical Section을 실행중인 Process가 없는 경우, Critical Section을 실행할 권한을 가져옴
+  * unlock : Critical Section의 실행이 완료된 후, 대기중인 Process의 접근을 가능하게 함
+* Process1이 Critical Section을 실행중이라면 Process2가 접근하더라도 대기 상태가 됨
+  * Process1의 Critical Section 실행이 종료되면 Unlock 실행. 이후, Process2의 lock을 하고 Critical Section에서 실행
+    * mutex 생성자에서 lock을 호출하는 경우에는 소멸자에서 unlock을 호출
+    * Mutex를 변수로 사용하는 경우 lock을 통해서 Critical Section에 진입하지만, unlock이 되어 있지 않는 상태라면 무한 대기
+  * WinAPi인 경우, Waitforsingleobject() 같은 대기함수를 이용하여 Mutex의 상태를 Nonsignaled로 변경
+    * Nonsignaled인 경우 다른 Process/Thread가 접근하지 못하고 대기, ReleaseMutex 함수를 이용하여 Signaled 상태로 변경
+    * 대기함수에 지정한 시간을 초과하는 경우, return 하므로 무한 대기 방지
+* 아래 코드에서는 m2 unlock을 하지 않은채로 m2 lock을 걸었을 때, "m2 unlock"부터 출력되지 않음
 
+```c++
+#include <iostream>
+#include <mutex>
+#include <thread>
 
+std::mutex m1, m2;
 
+void f1(){
+    std::cout <<"m1 Lock\n";
+    m1.lock();
+    std::cout <<"m2 lock\n";
+    m2.lock();
+    std::cout <<"m1 unlock\n";
+    m1.unlock();
+    std::cout <<"m1 lock\n";
+    m1.lock();
+    std::cout <<"m2 lock\n";
+    m2.lock();
+    std::cout <<"m2 unlock\n";
+}
+
+void test_mutex(){
+    std::thread t1(f1);
+    t1.join();
+}
+```
+
+**Semaphore** 
+
+* Mutex와 결정적인 차이는 동기화 대상의 수
+  * Mutex는 동기화 대상이 하나일 때 적용하고, Semaphore는 동기화 대상이 하나 이상일 때 적용
+    * Semaphore는 Mutex가 될 수 있지만, Mutex는 Semaphore가 될 수 없음
+    * Mutex는 Binary 상태를 가진 Binary Semaphore
+      * Mutex는 자원에 접근 가능한 Process/Thread의 갯수가 하나이므로 lock,unlock으로 Process/Thread가 Resource를 소유할 수 있으나, Semaphore는 불가능
+
+* Semaphore는 자원에 접근 가능한 Process/Thread의 갯수를 설정하고, Count가 0이 될 때 NonSignaled 상태로 변경
+  * Count의 초기 값은 자원에 접근 가능한 Count가 1 이상인 경우 Signaled(unlock) 상태로 유지
+  * Count가 0으로 되는 순간 NonSignaled(lock)로 변경되어 다른 Process/Thread에서 접근하지 못하고, 1 이상으로 되는 순간 Signaled
 
 ### Problems
 
