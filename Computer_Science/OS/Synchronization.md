@@ -129,7 +129,7 @@ sort: 10
 **Peterson's Solution**
 
 * 병렬 프로그래밍 중 두 개의 이상의 Process가 하나의 Resource를 사용할 때, 동기화를 해결하는 방법
-* flag, turn 2개의 변수를 사용하여 Critical Section 생성
+* flag, turn 2개의 변수를 사용하여 Mutex 생성
 
 ```c++
 P1
@@ -155,8 +155,8 @@ flag[2] = false;
 * Mutual Exclusion의 약자로 두 개 이상의 Process에서 동일한 Resource의 Critical Section에 동시에 접근할 수 없게 막아주는 객체
 
 * lock / Unlock 두가지 기능을 이용하여, 다른 Process의 접근 권한을 제어
-  * lock : Critical Section을 실행중인 Process가 없는 경우, Critical Section을 실행할 권한을 가져옴
-  * unlock : Critical Section의 실행이 완료된 후, 대기중인 Process의 접근을 가능하게 함
+  * lock : Critical Section을 실행중인 Process가 없는 경우, Critical Section을 실행할 권한을 가져옴 (**Acquire**)
+  * unlock : Critical Section의 실행이 완료된 후, 대기중인 Process의 접근을 가능하게 함 (**Release**)
 * Process1이 Critical Section을 실행중이라면 Process2가 접근하더라도 대기 상태가 됨
   * Process1의 Critical Section 실행이 종료되면 Unlock 실행. 이후, Process2의 lock을 하고 Critical Section에서 실행
     * mutex 생성자에서 lock을 호출하는 경우에는 소멸자에서 unlock을 호출
@@ -209,17 +209,40 @@ void test_mutex(){
 
 **Producer and Consumer (유한버퍼, The Bounded Buffer)**
 
+* Producer에서 Item을 생성하고, Consumer에서 소비할 때 발생할 수 있는 동기화 문제를 해결
 
+* Mutex를 형성하지 않으면, Producer에서 Buffer의 Size가 가득 찼을 때 여러개의 Producer가 동작할 수 있고, 동일한 Item에 여러개의 Consumer가 접근할 수도 있음
+* Producer
+  * Buffer에 추가하기 전, Buffer의 여유공간을 확인하고, Buffer가 Signaled 상태인지 확인하여 생성하지 못할 상황에서는 대기
+  * Item을 버퍼에 추가할 때, Mutex를 생성해서 다른 Producer/Consumer에서 접근하지 못하게 함
+  * Item 추가가 완료된 후, NonSignaled 상태로 변경하고 Buffer에 추가된 내용은 전달
+* Consumer
+  * 필요한 Item이 Producer로부터 Buffer에 추가되었다는 것을 확인하기 전까지 대기
+  * Item이 Buffer에 있는 것이 확인되면, Buffer가 Signaled 상태인지 확인
+  * Signaled 상태일 때, Mutex를 생성하고 Buffer에 여유 공간이 있는 내용을 전달
 
-
+![Producer_Consumer](./Img/Producer_Consumer.png)
 
 **Readers-Writers**
 
+* 여러 명의 Reader가 동시에 Item에 접근할 때 Mutual Exclusion을 보장하기 위한 동기화 문제 해결 방법
+
+* Writer의 작성이 완료되면 Reader는 하나씩 돌아가면서 Item에 접근
+* Writer
+  * 작성하기 전 Signaled 상태인지 확인하고, 작성 가능할 때 Mutex를 생성하여 NonSignaled 상태로 변경
+  * Item 작성이 완료되면, NonSignaled 상태로 변경
+* Reader
+  * Reader는 Reader Mutex가 Signaled 상태인지 확인하고 Nonsignaled로 변경하고 Readcount를 1 증가
+  * 처음으로 Read를 한 경우 Readcount가 1이기 때문에, Readcount가 1인 경우에는 Writer Mutex의 상태가 Signaled인지 확인(작성완료)
+  * 다른 Reader도 접근을 해야되기 때문에 Reader Mutex를 Signaled로 변경
+  * 읽기 작업을 처리
+  * Reader Mutex가 Signaled 상태가 될 때까지 대기한 후, Nonsignaled 로 변경
+  * readcount를 1 감소하는데 readcount가 0이 된 경우 Writer에게 전달
+  * Reader Mutex를 Signaled 상태로 변경
 
 
-**Dining Philosophers**
 
+**Dining Philosophers**,  **Sleeping Barber** 등 다양한 문제들이 있는데 Semaphore로 접근을 하여 문제를 해결할 수 있다
 
-
-
-
+* 주어진 문제에서 다양한 Thread들이 동시에 접근하는 상황에서는 Mutex를 생성해서 동기화 문제를 해결
+* 동기화 문제가 해결되지 않으면 Deadlock이 발생하여 아무것도 진행되지 않는 상황이 발생할 수 있음
