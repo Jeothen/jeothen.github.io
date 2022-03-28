@@ -41,17 +41,17 @@ sort: 11
 ### MMU
 
 * 프로그램이 실행될 때, CPU에 의해 Logical Address가 생성됨
-
 * Logical Address는 물리적으로 존재하지 않기 때문에 Virtual Address라고 하며, 메모리 위치를 참조하는데 사용됨
-* 각 프로그램은 Entry Point를 가지고 있으며, MMU에서 Logical Address + Entry Point = Physical Address를 계산
+  * Logical Address : p 와 d 영역의 bit : p는 page를 나타내고 d는 offset을 나타내어 page map Table(page-Frame Mapping) Search
+  * Virtual Address : f 와 d 영역의 bit, f는 frame을 나타내고 d는 offset을 나타내어 offset을 이용하여 Physical Memory에 접근
 
+* 각 프로그램은 Entry Point를 가지고 있으며, MMU에서 Logical Address + Entry Point = Physical Address를 계산
 * Memory에 접근하기 위해서는 Virtual Address를 Physical Address로 변환해야됨
   * TLB(Translation Lookaside Buffer) : Page Map을 이용하여 Frame 위치를 찾는 작업을 Caching
   * TLB에서 Page-Frame Search Fail 시 Page Map에서 Frame 위치를 찾음
-
 * Page Frame : 가상 메모리를 특정한 크기로 나눈 것
   * 가상 Memory는 Physical Memory와 Logical Memory를 나눈 것으로 실제 Physical Memory보다 큰 Virtual Memory를 확보할 수 있게 해줌.  가상 메모리는 기존의 Physical Memory 영역 외 DISK도 사용 가능
-    * LRU, FIFO 등 알고리즘을 사용하여 메모리와 DISK 간 Swap IN/Out 진행
+    * LRU, FIFO 등 알고리즘을 사용하여 메모리와 DISK 간 Swap In/Out 진행
 * Page Map Table : Process별로 존재하며, 가상 주소와 물리 메모리를 Mapping하기 위해 가상 메모리 시스템에서 사용하는 구조
   * [Process Memory](https://jeothen.github.io/Computer_Science/OS/Process.html#memory-struct) 도 Physical 메모리에 바로 Load하면 비효율적이라 가상 메모리로 사용됨
   * Process Memory는 Frame 단위로 나누어 가상 메모리에 저장되며, Page Map을 이용하여 Physical Memory와 Mapping
@@ -60,31 +60,49 @@ sort: 11
 
 <div style="text-align: right">Image Ref : https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c16/c16s1/</div>
 
-* Page Map Table을 이용하여 Page Frame의 Physical Memory 위치를 알 수 있음
+### Fragmentation 
+
+* 메모리를 작은 공간으로 나누는 과정에서 비효율적으로 공간이 낭비되는 현상으로 외부 단편화와 내부 단편화가 있음
+
+**내부 단편화(Internal Fragmentation)**
+
+* Process가 실행되는 시점, Process를 메모리에 할당하기 위해 빈 공간을 만드는데, Process가 필요로 하는 Memory의 크기와 빈 공간의 크기 차가 발생할 때 내부 단편화 발생
+* 메모리의 빈 공간 중 Process의 메모리와 차이가 가장 적은 곳으로 할당하여 내부 단편화 최소 필요
+
+**외부 단편화(External Fragmentation)**
+
+* Process를 할당하려고 하는데, Memory에 연속된 Process Memory가 들어갈 빈 공간이 없는 경우, 외부 단편화 발생할 수 있음
+  * 여러 Process를 실행하면서 발생하는 내부 단편화의 합이 Process가 필요로 하는 Memory를 충족하는 경우 외부 단편화 발생
+  * 연속적인 공간이 아니라서, Process를 Memory에 할당하지 못함
+
+### Paging
+
+* Virtual Memory를 Page라는 단위로 나누고, Physical Memory 영역도 Page와 동일한 크기인 Frame이라는 단위로 나눔
+  * 동일한 크기의 Page로 나누다보니 Process의 모든 데이터를 완벽하게 담지 못하고 빈 공간이 생기게 됨(Internal Fragmentation)
+* Page Map Table의 Page-Frame Mapping을 이용하여 Physical Memory 위치를 확인 및 할당
+* 연속적이지 않은 공간에도 메모리를 추가할 수 있기 때문에 외부 단편화를 해결할 수 있음
+* Page크기가 작아질수록 내부 단편화가 개선될 수 있지만, Mapping을 해야되는 수가 배로 늘기 때문에 비효율적임
+
+* 외부 단편화는 해결되나, 내부 단편화가 존재
+
+* Virtual Memory 영역에서는 Page, Physical Memory 영역에서는 Frame으로 사용하지만 공통으로 Page Frame 사용하는 경우도 있음
 
 ![Virtual_Page](./Img/Virtual_Page.png)
 
 <div style="text-align: right">Image Ref : https://www.cs.rpi.edu/academics/courses/fall04/os/c12/</div>
 
-### Fragmentation 
-
-* 메모리 단편화
-
-
-
-
-
-### Paging
-
-
-
 ### Segmentation
+
+* ㅁㄴㅇㅁㅇ
+* 내부 단편화는 해결되나, 외부 단편화가 존재
 
 
 
 ### Memory Pool
 
-
+* ㅁㄴㅇㅁㄴㅇ
+* 내부 단편화와 외부 단편화를 해결할 수 있음
+* 
 
 
 
