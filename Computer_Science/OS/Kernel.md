@@ -48,6 +48,8 @@ sort: 3
 **Monolithc Kernel**
 
 * 단일형 커널로, 운영체제에서 발생하는 모든 작업을 하나의 커널이 처리하여 성능이 좋음
+  * 사용자 서비스 영역과 커널 서비스가 동일한 주소 공간에 보관됨
+
 * 모든 모듈이 같은 주소 공간에 있어 Kernel의 크기가 크며, 코드의 집적도가 높아 유지보수가 어려움
 * 하나의 Service에 문제가 생기면 전체 Kernel에 영향을 주며, Device Driver에 변경이 있는 경우 Kernel 재빌드 필요
 * UNIX, LINUX 등에서 사용
@@ -56,8 +58,10 @@ sort: 3
 
 * 핵심적인 기능(IPC, Memory, Scheduling)만 남겨서 Kernel의 크기를 줄이고, Device Driver, File System 같은 제외된 Service 영역은 Kernel 위에 Server 형태로 제공
 * 하나의 Server에 문제가 생기더라도 Kernel에는 영향이 없으며, 장치에 변경이 있어도 Kernel 재빌드 안 해도 됨
-* 서버의 형태로 통신을 하기 때문에 overhead 발생
-* RealTIme이 중요한 OS에서 사용
+* 서버 형태로 통신을 하기 때문에 Context Switching으로 인한 overhead 발생 가능성이 높음
+* Process를 관리하는 핵심적인 기능이 중요한 RealTIme OS에서 주로 사용
+  * Monolithic과 다르게 Service 영역에 문제가 생기더라도 Kernel이 동작할 수 있음
+
 
 ![MicroKernel](./Img/MicroKernel.png)
 
