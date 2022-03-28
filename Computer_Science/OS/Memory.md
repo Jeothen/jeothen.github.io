@@ -93,10 +93,19 @@ sort: 11
 
 ### Segmentation
 
-* ㅁㄴㅇㅁㅇ
-* 내부 단편화는 해결되나, 외부 단편화가 존재
+* Process를 고정된 크기인 Page가 아닌, Logical Address에 맞춰 가변 크기로 분할
+  * Logical Address에 맞춘 가변 크기라 내부 단편화가 발생하지 않음
+* Logical Address Space에 가변 크기의 Segment들을 Segment Table(LDT, Local Descriptor Table)을 이용하여 Physical Memory에 Mapping
+  * segment table은 base와 limit으로 구성되어 있는데, base는 Segment가 시작되는 Physical Address의 주소이고, Limit은 크기
+  * Limit의 범위를 침범하는 Segment를 Physical Memory에 적재하려고 할 때는 Segment Fault(Segment Violation) 발생
+* Segment는 논리적인 내용을 범위로 구성되기 때문에 Process Memory 내 같은 영역으로 구성될 수 있기 때문에 보호/공유 기능을 수행하기 용이
+* Segment가 Load/Unload를 반복하는 과정에서 동일한 크기의 공간을 할당하지 못하기 때문에 외부 단편화 발생 
 
+* 내부 단편화는 해결되었으나, 외부 단편화가 존재
 
+![Segmentation](./Img/Segmentation.png)
+
+<div style="text-align: right">Image Ref : https://www.geeksforgeeks.org/segmentation-in-operating-system/ </div>
 
 ### Memory Pool
 
