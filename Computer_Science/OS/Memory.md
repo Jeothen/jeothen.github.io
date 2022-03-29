@@ -109,9 +109,19 @@ sort: 11
 
 ### Memory Pool
 
-* ㅁㄴㅇㅁㄴㅇ
-* 내부 단편화와 외부 단편화를 해결할 수 있음
-* 
+* 내부 단편화와 외부 단편화를 해결하기 위한 방법
+* Object Pool : 동일한 사이즈의 Memory Block을 미리 확보해놓은 것을 Memory Pool이라고 함
+  * 프로그램 런타임 중 Memory Pool에서 메모리 공간을 받아와서 사용하고 반납
+  * 가변 Size를 사용하게 된다면 new / delete를 지속적으로 반복 사용해서 시스템 성능 저하에 영향을 줌 
+  * 프로세스 동작 중 Memory 사용이 완료된 공간을 삭제하지 않고, Memory Pool에 반환해서 재사용
+  * 연속된 메모리 공간을 사용하기 때문에 빠른 속도로 탐색할 수 있음
 
+* Multi Process/Thread 환경에서는 Lock을 걸어주어 동기화 문제를 해결해야됨
+* 아래 예시에서는 Memory Pool을 100Byte로 Block들로 만들었고, Process가 250Byte를 사용함
+  * 이 때 남은 50Byte는 Memory Pool에 그대로 둠 (메모리 풀의 메모리 오버헤드)
+    * ex) 40Byte Process가 실행될 때, 40Byte보다 큰 Size를 Memory Pool에서 탐색
+  * 다음 Process에서 Memory를 사용하게 될 때는 사용하지 않은 Block(300Byte)부터 메모리 사용
 
+![Memory_Pool](./Img/Memory_Pool.png)
 
+<div style="text-align: right">Image Ref : https://www.codeproject.com/Articles/15527/C-Memory-Pool</div>
