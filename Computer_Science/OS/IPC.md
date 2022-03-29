@@ -90,7 +90,7 @@ sort: 8
 
 
 
-**[Semaphore](https://jeothen.github.io/Computer_Science/OS/Synchronization.html#semaphore)**
+**[Semaphore](https://jeothen.github.io/Computer_Science/OS/Synchronization.html#critical-section)**
 
 * Process 간 데이터 전송을 담당하지 않고, 프로세스 간 동기화를 담당
   * 여러개의 Process에서 동일한 메모리에 접근할 때, 하나의 Process만 접근할 수 있게 함
