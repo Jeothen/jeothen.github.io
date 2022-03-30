@@ -13,11 +13,28 @@ sort: 12
 
 **Partition**
 
-* 
+* 영구 저장장치 드라이버를 설정한 데이터 크기로 분할했을 때 생기는 영역
+* 파티션으로 생성된 영역을 파일 시스템으로 포맷하여 접근할 수 있는 저장 공간을 볼륨이라고 함
+* Partition을 구분하여 데이터 보호 및 관리 용이
+* 하나의 Disk에 여러개의 OS를 사용할 수 있게 함
+* 주파티션을 4개까지 설정할 수 있으나, 추가 파티션이 필요한 경우 마지막 파티션을 확장 파티션으로 지정
+  * 확장 파티션은 여러개의 파티션으로 분할할 수 있으며, 분할된 각 파티션을 논리파티션이라고 함
+* Windows에서는 각 Partition이 Root Directory를 가지고 있어서 C드라이브 D드라이브 등으로 구분됨
+* Linux에서는 /dev/sda2, /dev/sdb1 등으로 Root Directory 하위 Directory로 추가됨
+  * sda2는 첫번째 Disk의 두번째 Partition, sdb1은 두번째 Disk의 첫번째 Partition 
+
+![Partition](./Img/Partition.png)
+
+<div style="text-align: right">Image Ref : https://unix.stackexchange.com/questions/501883/does-this-refer-to-a-file-system </div>
 
 **Mount**
 
-* 
+* 파일시스템이나 디스크 드라이브를 OS가 인식할 수 있는 Directory에 연결시켜주는 작업
+* Windows에서는 외부 드라이브가 연결 되었을 때 자동으로 Mount를 시켜주지만, Unix 환경에서는 사용자가 직접 특정 Directory에 연결시켜야 함
+  * Unix는 Root Directory에서 시작하는 Single Directory 구조를 가지고 있고 Windows는 볼륨마다 Root Directory를 가짐
+* Linux에서는 /etc/fstab에 설정된 내용으로 부팅시 마운트 적용
+  * 파일시스템 장치명, Directory 경로, 파일시스템 종류, 옵션 등을 설정
+* Mount를 할 때 -o 옵션을 적용하여 마운트 된 파일 시스템의 권한 등을 설정할 수 있음
 
 **File System Metadata**
 
