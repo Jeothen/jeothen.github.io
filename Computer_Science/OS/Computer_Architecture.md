@@ -34,7 +34,7 @@ sort: 1
 * RAM(Random Access Memory) : 전원이 끊어지면 데이터가 소멸하는 휘발성 메모리로 일반적으로 PC의 주기억장치를 의미
 * ROM(Read-Only Memory) : PC의 BIOS와 같이 전원이 끊어져도 기록이 남아있는 비휘발성 메모리. 일반적으로 한번 저장하면 새로운 값으로 대체할 수 없지만, 값이 대체되는 ROM도 있음 (반영구적 저장 장치)
 
-**DISK**
+**[DISK](https://jeothen.github.io/Computer_Science/OS/File_System.html#disk)**
 
 * HDD : 액추에이터 암을 이용하여 데이터의 위치를 알려주고, 엑추에이터 암 끝에 있는 Read/Write Head를 이용하여 회전 디스크 드라이버 플래터에 데이터를 읽고 작성
   * 데이터를 읽고 쓰는데 기계적인 동작이 필요하므로 속도가 느리고 외부 충격에 의해 민감하여 대용량 데스크탑에 적절

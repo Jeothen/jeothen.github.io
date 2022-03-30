@@ -38,9 +38,11 @@ sort: 12
 
 **File System Metadata**
 
-* 파일과 별도로 저장되며, Directory에 저장될 수도 있으나 주로 inode에 저장
-  * inode : 파일, Directory 등 파일 시스템에 관한 정보를 가지고 있는 Unix 계열에서 사용하는 디스크 상의 자료구조
 * 파일 이름, 저장된 위치, 사이즈, 접근 권한 등 파일에 관련된 정보가 저장되어 있음
+
+* 파일과 별도로 저장되며, Directory에 저장될 수도 있으나 주로 FCB에 저장
+  * inode : 파일, Directory 등 파일 시스템에 관한 정보를 가지고 있는 Unix 계열에서 사용하는 디스크 상의 자료구조
+    * Unix 외 OS에서는 FCB(File Control Block) 라고도 함
 * 파일을 삭제 하더라도 DISK에서 지워진 게 아니라면 Metadata를 이용하여 복구
 
 * inode에 저장된 Metadata를 Memory에 적재하고 Process에서 Memory를 참조
@@ -48,10 +50,6 @@ sort: 12
   * 파일의 Metadata를 찾으면 Memory에 적재하고, PCB에 Memory 상 파일의 Metadata가 저장된 위치를 저장
   * 메타데이터에는 파일의 데이터가 저장된 주소가 포함되어 있으니, 파일의 데이터를 이용할 수 있음
   * 이후 Process에서 파일에 접근할 때 Root부터 실행하는 게 아니라, PCB에 저장된 Metadata 정보를 이용하여 바로 접근할 수 있음
-
-**Directory**
-
-* 
 
 **Allocation**
 
@@ -77,19 +75,33 @@ sort: 12
 <div style="text-align: right">Image Ref : https://www.geeksforgeeks.org/file-allocation-methods/
  </div>
 
+**VFS**
+
+* Virtual File System은 실제 File System과 OS 사이의 Interface를 제공
+* 디스크의 종류에 관계 없이 동일한 System Call을 method를 제공
+  * VFS에서 동일한 method를 제공하더라도 파일 시스템에서 Customizing하여 직접 구현해줘야함
+
 **Journaling**
 
-* 
+* DISK에 시스템 변경사항을 저장하기 전에 Journal Log를 작성
+  * 변경사항이 Commit 되지 않고 시스템이 종료 되었을 때, Journal Log를 참조하여 복구
+  * FSCK(File System Check)보다 빠르고 안전하게 복구할 수 있음
+* Linux는 ext3부터 기능 제공
 
-**Windows Registry**
+**Buffer Cache**
 
-* File System과 다름
+* 최근에 사용된 DISK Block을 메모리에 캐싱
+* File이 저장되는 Block들은 Locality가 있기 때문에 이후에 접근할 때 응답 시간을 줄일 수 있음
 
 
 
 ### DISK
 
 **HDD**
+
+
+
+* Scheduling
 
 
 
@@ -101,13 +113,11 @@ sort: 12
 
 
 
-**Scheduling**
-
-
-
 
 
 ### Distributed File System
+
+Nfs
 
 **HDFS**
 
