@@ -38,7 +38,16 @@ sort: 12
 
 **File System Metadata**
 
-* asd
+* 파일과 별도로 저장되며, Directory에 저장될 수도 있으나 주로 inode에 저장
+  * inode : 파일, Directory 등 파일 시스템에 관한 정보를 가지고 있는 Unix 계열에서 사용하는 디스크 상의 자료구조
+* 파일 이름, 저장된 위치, 사이즈, 접근 권한 등 파일에 관련된 정보가 저장되어 있음
+* 파일을 삭제 하더라도 DISK에서 지워진 게 아니라면 Metadata를 이용하여 복구
+
+* inode에 저장된 Metadata를 Memory에 적재하고 Process에서 Memory를 참조
+  * Root Directory의 Metadata에서 파일의 Metadata까지 Directory 경로를 하나씩 추가하며 최종 파일 위치로 찾아감
+  * 파일의 Metadata를 찾으면 Memory에 적재하고, PCB에 Memory 상 파일의 Metadata가 저장된 위치를 저장
+  * 메타데이터에는 파일의 데이터가 저장된 주소가 포함되어 있으니, 파일의 데이터를 이용할 수 있음
+  * 이후 Process에서 파일에 접근할 때 Root부터 실행하는 게 아니라, PCB에 저장된 Metadata 정보를 이용하여 바로 접근할 수 있음
 
 **Directory**
 
