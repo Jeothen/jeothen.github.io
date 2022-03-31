@@ -97,13 +97,40 @@ sort: 12
 
 ### Distributed File System
 
-Nfs
+**NFS / CIFS**
+
+* SMB (Server Message Block) : Client-Server 간 접근을 통해 원격 통신할 수 있는 Protocol이었지만, Server의 Directory를 Client는 마치 Local에 있는 것처럼 엑세스 할 수 있게 지원함
+  * Windows의 경우 공유 폴더로 설정된 Directory를 Network Driver로 연결하여 접속
+
+* CIFS (Common Internet File System) : Internet 환경을 고려하여 MS에서 도입한 SMB 버전
+  * Windows95 등 초기 Windows 버전에서 CIFS를 사용했으나 성능 부족 및 사이버 보안 이슈로 사용하지 않음.
+    * 이후 나온 버전에서 다시 SMB라는 명칭을 사용 (Windows10에서 SMB 3.1.1을 사용)
+* NFS (Network File System) : Unix/Linux에서 로컬 파일 시스템을 공유하는 프로토콜
+  * Export 된 File System을 Client가 Mount하여 Local Directory처럼 사용
+* 다수의 사용자가 함께 사용하는 네트워크 저장 공간인 NAS(Network Attached Storage)를 사용할 때, CIFS/SMB나 NFS가 프로토콜로 사용됨
+  * NAS를 이용하면 서로 다른 OS(File System)에서도 동일한 Storage를 공유할 수 있음
+  * NFS와 CIFS/SMB는 서로 통신할 수 없기 때문에 Server와 Client가 통신하기 위해서는 Protocol을 일치화해야됨
+  * 예) Windows와 Linux에서 공유할 때, SMB Protocol은 Linux와 Windows 환경을 지원하는 Samba 프로토콜 이용
+    * Linux에 Samba Server를 설치하고 Windows에서 Linux 계정의 Home Directory를 공유 폴더로 설정
+    * Samba : Unix System을 고려한 SMB 프로토콜, Windows/Apple OS 등 서로 다른 OS 간 Resource를 공유할 수 있는 SMB Server
 
 **HDFS**
 
+* 
 
+![HDFS](./Img/HDFS.png)
+
+<div style="text-align: right">Image Ref : https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html
+ </div>
 
 **GFS**
+
+* 
+
+![GFS](./Img/GFS.png)
+
+<div style="text-align: right">Image Ref : https://ko.wikipedia.org/wiki/구글_파일_시스템
+ </div>
 
 
 
