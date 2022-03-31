@@ -95,26 +95,6 @@ sort: 12
 
 
 
-### DISK
-
-**HDD**
-
-
-
-* Scheduling
-
-
-
-**SSD**
-
-
-
-**RAID**
-
-
-
-
-
 ### Distributed File System
 
 Nfs
