@@ -116,23 +116,35 @@ sort: 12
 
 **HDFS**
 
-* 
+* 하둡의 대용량 파일을 분산된 서버에 저장하고, 대용량 데이터를 처리할 수 있는 파일 시스템
+* Master 역할을 하는 NameNode와 Slave 역할을 하는 DataNode로 구성되어 있으며 TCP/IP 프로토콜을 이용하여 통신
+* 블록 단위로 데이터를 저장하며, 하나의 블록의 크기는 128MB에서 512MB 등으로 대용량 블록임
+  * 블록의 크기가 300MB인 경우, 128MB/128MB/44MB 3개의 블록이 생성됨
+
+* NameNode : File System의 Namespace를 관리
+  * File System Tree 및 Tree에 포함되는 File/Directory의 Metadata를 관리
+  * Metadata 스냅샷인(영속적 CheckPoint) fsimage, 체크포인트 이후 Update 된 edits log는 DISK에 저장
+    * 트랜잭션이 발생할 때마다 대용량 파일인 fsimage를 업데이트 할 수 없기 때문에 설정한 조건을 만족할 때 edits 내용을 fsimage에 반영
+    * fsimage와 edits를 이용하여 메타데이터를 복구할 수 있음
+
+  * Datanode는 주기적으로 Block에 대한 정보를 Namenode에 전송하기 때문에, Namenode는 블록들의 위치를 매핑하여 메모리에 저장
+  * Client가 HDFS의 File에 접근하려고 할 때 Namenode에서 접근 권한 여부를 확인
+  * Datanode로부터 주기적으로 Heart Beat / Block Report를 전송받아 Datanode / 블록의 상태를 지속적으로 관리
+
+* Datanode : Client의 요청을 받은 Namenode가 Data를 저장할 때 블록 단위의 데이터를 저장하고 있는 개체
+  * Client는 Primary datanode에 데이터를 블록 형태로 작성
+    * Primary datanode는 Secondary datanodes에 블록을 복제
+      * 하나의 Block에 문제가 생겼을 때, 복제된 다른 datanode의 Block을 이용하여 Recovery
+    * 복제가 완료되면 Primary node는 Client에게 데이터 작성 완료를 응답
+  * Client가 데이터를 읽을 때는 Namenode에서 어떤 datanode에 원하는 데이터 블록이 있는지 확인한 후 Datanode에 접근
+  * 블록 지역성(Locality)를 보장하기 때문에 데이터가 있는 Node에서 Map Task를 수행
+    * 해당 Node에서 처리를 못할 경우 동일 Rack의 Node를 확인하여 수행
+    * 동일 Rack에서 사용할 수 있는 Node가 없는 경우 외부 Rack의 Node를 이용하기 때문에 네트워크 전송 발생
 
 ![HDFS](./Img/HDFS.png)
 
 <div style="text-align: right">Image Ref : https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html
  </div>
-
-**GFS**
-
-* 
-
-![GFS](./Img/GFS.png)
-
-<div style="text-align: right">Image Ref : https://ko.wikipedia.org/wiki/구글_파일_시스템
- </div>
-
-
 
 ### OS
 
@@ -149,3 +161,4 @@ sort: 12
 * HFS
 
 https://namu.wiki/w/%ED%8C%8C%EC%9D%BC%20%EC%8B%9C%EC%8A%A4%ED%85%9C#s-2.3
+
