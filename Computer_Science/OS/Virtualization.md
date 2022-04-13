@@ -49,19 +49,17 @@ sort: 14
 
 **전가상화(Full Virtualization)**
 
-* H/W의 리소스를 완전히 가상화하기 때문에, Guest OS는 H/W로 명령을 요청
-* CPU 단에서 Intel-VT(Virtualization Technology) 기능이나 AMD-V 기능을 제공하는 경우, Guest OS에서 발생한 명령을 H/W로 전송할 수 있음
-* Privileged 권한이 없는 Guest OS에서 H/W로 Privileged instruction을 보냈을 때, Hypervisor를 거치지 않고 Host OS처럼 동작
-  * OS마다 커널 명령이 다르고 Guest OS는 특권 권한이 없기 때문에 모든 명령을 Hypervisor로 Trap
-  * Hypervisor는 Trap된 명령을 Binary Translation을 적용하여 H/W가 인식할 수 있게 Emulate
-* H/W의 리소스를 완전히 가상화하여서 Guest OS의 수정 없이 사용할 수 있음
-* Hypervisor가 모든 명령을 중재하고 Guest OS에서 CPU에 직접 접근하기 때문에 성능 저하 발생
+* H/W의 리소스를 완전히 가상화하기 때문에, Guest OS는 Hypervisor로 명령을 요청하지만 H/W에 직접 요청하는 것처럼 보임
+* CPU 단에서 Intel-VT(Virtualization Technology) 기능이나 AMD-V 기능을 제공하는 경우, 전가상화를 사용할 수 있음
+* Privileged 권한이 없는 Guest OS에서 H/W로 Privileged instruction을 보냈을 때 H/W Trap 발생
+  * Hypervisor에서는 Binary Translation이나 Instruction Caching을 이용하여 Emulate
+* H/W의 리소스를 완전히 가상화하기 때문에 Guest OS를 수정하지 않고 사용할 수 있음
+* Trap이라는 이벤트가 발생할 때 상당한 오버헤드를 발생시키고, 명령어 캐싱을 사용하기 때문에 메모리 사용량이 많음
 
 **반가상화(Para Virtualization)**
 
 * 전가상화에서는 Guest OS가 H/W가 전부 가상화되었다고 판단하여 H/W로 직접 요청했지만, 반가상화에서는 Guest OS가 가상화가 되지 않은 부분이 있다는 것을 인지하고 있기 때문에 H/W로 명령을 보내기 위해 드라이버를 이용
-* Guest OS에서 Hypervisor로 HyperCall이라는 Interface를 이용
-* Guest OS의 명령을 Hypercall로 변환하기 위해 커널 수정 필요
+* Guest OS에서 Hypervisor로 HyperCall이라는 Interface를 이용하기 위해서 커널 수정 필요
   * Source가 공개되지 않은 OS의 경우 사용하기 어려워 Open Source OS인 Linux에서 주로 사용
   * 윈도우 등의 OS에서는 변환하기 위해서는 별도의 프로그램을 이용해야 됨
 * H/W에서 Hypervisor로 Trap/Emulate 과정을 생략하기 때문에 성능이 우수함
@@ -74,15 +72,13 @@ sort: 14
 
 x86 서버에서는 4개의 보호 Ring 구조로 Module의 권한 순위를 구성하고 있음
 
-* OS의 시스템 커널은 Ring0, Ring1~3은 장치 드라이버 레벨	
-* Ring의 Level이 낮을수록 높은 권한을 가지고 있음 
+* OS의 시스템 커널은 Ring0, Ring1~3은 장치 드라이버 레벨
+* Ring의 Level이 낮을수록 높은 권한을 가지고 있음
 
-반가상화를 사용하기 위해서는 Guest OS 에서는 Ring0에 Guest OS가 있고 그 아래에(-1 Level) VMM이 존재
+반가상화를 사용하기 위해서는 Ring0에 Guest OS가 있고 그 아래에(-1 Level) VMM이 존재
 
-* 반가상화에서 전부 가상화되지 않았기 때문에 Guest OS의 Ring Level을 0으로 수정한 후 특권 명령으로 H/W를 직접 제어
-  * Guest OS가 제어하기 위한 Interface 계층으로 Virtualization Layer 존재
-
-* 전가상화의 Guest OS는 시스템 커널 레벨이라서 H/W에 Privileged instruction 실행하지만, H/W가 인식할 수 있는 언어로 제공되어야 하기 때문에 Trap & Emulate 과정을 진행
+* H/W가 전부 가상화되지 않았기 때문에 Guest OS의 Ring Level을 0으로 수정한 후 특권 명령으로 H/W를 제어
+* Guest OS가 가상화되지 않은 H/W까지 제어하기 위해 Virtualization Layer 계층에서 직접 제어할 수 있는 API 제공
 
 ![x86_Ring](./Img/x86_Ring.png)
 
