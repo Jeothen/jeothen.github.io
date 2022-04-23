@@ -50,18 +50,35 @@ sort: 1
 
 ### Modeling
 
-
+데이터 베이스의 디자인은 개념적 모델링, 논리적 모델링, 물리적 모델링 3단계로 나누어지며 순서대로 진행한 후 데이터베이스를 구현
 
 **개념적 데이터 모델**
 
-
+* 시스템에 포함될 내용을 정의하는 단계로 Entity와 Entity 간 Relation을 정의
+* Entity의 Attribute는 표시하지 않으며, E-R Model의 전체적인 틀을 잡는 단계
 
 **논리적 데이터 모델**
 
-* 관계형 데이터 모델
-* 계층형 데이터 모델 
-* 네트워크형 데이터 모델 
-* ... 
+* 개념 스키마를 설계, 평가 및 정제하는 단계
+
+* 트랜잭션의 인터페이스를 설계하며 정규화 단계가 포함되어 있어 중복되는
+
+  목표 DBMS에 맞는 다른 논리적 스키마를 설계  
+
+  트랜잭션의 인터페이스 설계
+
+* 정규화 단계가 포함되며, 
+
+* 관계형 데이터 모델, 계층형 데이터 모델, 네트워크형 데이터 모델, 객체지향형 데이터 모델 등 다양한 종류의 모델이 있음
 
 **물리적 데이터 모델**
 
+* 목표 DBMS에 맞는 물리적 구조의 데이터 변환
+
+![Conceptual_Logical_Physical](./Img/Conceptual_Logical_Physical.png)
+
+![Conceptual_Logical_Physical_table](./Img/Conceptual_Logical_Physical_table.png)
+
+
+
+<div style="text-align: right"> Image ref : https://vertabelo.com/blog/conceptual-logical-physical-data-model/ </div>
