@@ -32,6 +32,7 @@ Entity Manager는 트랜잭션 단위로 독립적으로 존재하며 스레드 
   * 영속성 컨텍스트에서 관리되고 있는 상태
   * 1차 Cache에 올라간 상태를 의미
     * 새로운 객체를 생성해서 persist로 영속 상태로 만들거나, DB 조회한 객체를 1차 Cache에 저장
+  * 영속 상태로 객체를 저장하기 위해서는 PK가 반드시 필요
 
   ```java
   // persistence unit name / Factory 생성
