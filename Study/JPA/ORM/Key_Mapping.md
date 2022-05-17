@@ -79,6 +79,9 @@ public class member{
     * Oracle, Postgre 등에서 사용할 수 있는 데이터베이스 Sequence 기능을 사용
       * 유일값을 생성해주는 Sequence 객체를 만들어서 PK 값을 가져옴
     * @SequenceGenerator 어노테이션을 사용하여 Sequence를 생성할 수 있음
+      * AllocationSize를 이용하여 한번에 가져오는 key 갯수를 조정하여 발생하는 쿼리를 줄일 수 있음
     * @Sequence 어노테이션에서 `generator=` 값에 SequenceGenerator에서 생성한 Sequence를 매핑
+    * persist() 시점에서 call next value를 호출하여 DB에서 PK값만 얻어와서 1차 캐시에 객체를 저장함
+    * 여러 쿼리를 모아서 한번에 commit 하는 쓰기 지연을 사용할 수 있음
   * AUTO : 위 3가지 방식 중 자동으로 선택해서 사용
 
