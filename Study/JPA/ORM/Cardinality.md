@@ -71,8 +71,8 @@ em.persist(team);
 
 ### 일대일 @OneToOne
 
-* 주 테이블이나 대상 테이블 중 외래키를 선택할 수 있음
-* 다대일 연관관계에서 외래키에 유니크 제약조건
+* 다대일 단방향 관계와 유사하나, 주 테이블이나 대상 테이블 중 외래키를 선택할 수 있음
+* default가 `unique = False`라서 외래키에 유니크 제약조건을 걸어줘야 데이터베이스와 매핑되어 저장할 수 있음
 * 외래키가 있는 곳이 Owner이고, 반대쪽에는 `mappedby` 를 걸어줌
 * Mapping 되는 테이블과 연관관계 매핑을 해서 다른 테이블을 조회
 
@@ -91,7 +91,7 @@ public class Locker {
 
 public class Member {
     @OneToOne
-    @JoinColumn(name="LOCKER_ID")
+    @JoinColumn(name="LOCKER_ID", unique = true)
     private Locker locker;
 }
 ```
@@ -106,7 +106,7 @@ public class Member {
 
 * RDB에서 다대다 관계를 한번에 표현할 수 없고, 중간 테이블을 만들어서 다대일 관계로 해결해야됨
 * 중간 테이블에 데이터를 추가할 수 없으니, 실무에서 사용하기에는 무리가 있음
-  * 매핑 정보만 담을 수 있음
+  * 비지니스 관련된 내용이 아닌, 매핑 정보만 담을 수 있음
 * @ManyToMany를 다대일/일대다로 변경하고, 중간 테이블을 직접 관리할 수 있는 엔터티로 생성
 
 ```java
@@ -162,3 +162,4 @@ public class Product {
 ![ManyToMany](./Img/ManyToMany.png)
 
 <div style="text-align: right"> Image ref : https://www.inflearn.com/course/ORM-JPA-Basic/dashboard</div>
+
