@@ -57,6 +57,8 @@ Entity Manager는 트랜잭션 단위로 독립적으로 존재하며 스레드 
   * 영속성 컨텍스트에서 저장되었다가 분리된 상태
   * Detach()는 특정 entity만 준영속 상태로 변경하는 것이고, clear()는 모든 엔터티를 준영속 상태로 변경
   * entity manager가 종료될 때 close()를 진행해도, 준영속 상태로 변경 (1차 cache 초기화)
+  * 준영속 상태의 entity를 영속 상태로 변경하기 위해서는 `merge` 를 사용하면 됨
+    * 반환값은 영속 상태의 엔터티  ``` Member mergeres = em.merge(member)```
 
 ```java
 Member findmember = em.find(Member.class, 1L);  // select query
